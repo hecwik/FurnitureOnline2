@@ -7,6 +7,8 @@ namespace FurnitureOnline2
     {
         static void Main(string[] args)
         {
+            Dapper.GetAllSpots();
+
             Console.WriteLine("Välkommen till Furniture Online!");
             Console.WriteLine("----------------------------------");
             Console.WriteLine(Products.ShowChosenItems());

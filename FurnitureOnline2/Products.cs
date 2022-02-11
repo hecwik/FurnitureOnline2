@@ -67,7 +67,19 @@ namespace FurnitureOnline2
                                   join
                                   Category in db.Categories on product.CategoryId equals Category.Id
                                   join Supplier in db.Suppliers on product.SupplierId equals Supplier.Id
-                                  select new ProductListQuery { Id = product.Id, ProductName = product.Name, Price = product.CurrentPrice, CategoryName = Category.Name, SupplierName = Supplier.Name, stockUnit = product.StockUnit, Description = product.Description, Color = product.Color, Material = product.Material, ArticleNumber = product.ArticleNr };
+                                  select new ProductListQuery 
+                                  {
+                                      Id = product.Id, 
+                                      ProductName = product.Name, 
+                                      Price = product.CurrentPrice, 
+                                      CategoryName = Category.Name, 
+                                      SupplierName = Supplier.Name, 
+                                      stockUnit = product.StockUnit, 
+                                      Description = product.Description, 
+                                      Color = product.Color, Material = 
+                                      product.Material, 
+                                      ArticleNumber = product.ArticleNumber 
+                                  };
                 var specificArticle = productList.Where(a => a.ArticleNumber == articleNr).ToList();
 
                 return $"{specificArticle[0].ProductName.ToUpper()}\n\nProduktbeskrivning: \n{specificArticle[0].Description}\n\nProduktfakta:\nArtikelnt: {specificArticle[0].Id}\nKategori: {specificArticle[0].CategoryName}\nLeverantör: {specificArticle[0].SupplierName}\nFärg: {specificArticle[0].Color}\nMaterial: {specificArticle[0].Material}";

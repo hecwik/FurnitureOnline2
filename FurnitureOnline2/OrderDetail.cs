@@ -9,7 +9,6 @@ namespace FurnitureOnline2
 {
     class Orderdetail
     {
-
         public static void AddToOrder()
         {
             using (var db = new WebShopDBContext())
@@ -33,7 +32,6 @@ namespace FurnitureOnline2
                 {
                     returnString += $"{order.Id,-10}{order.ArticleNumber,-10}{order.ProductName,-25}{order.UnitPrice,-14:C2}{order.TotalAmount,-17}\n";
                 }
-                //  return returnString;
             }
         }
 

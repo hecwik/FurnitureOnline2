@@ -121,7 +121,16 @@ namespace FurnitureOnline2
             Console.WriteLine("E-mail: ");
             string emailAdressInput = Console.ReadLine();
 
-            var guestShopper = new Models.Customer() { IdNumber = personalIdInput, FirstName = firstNameInput, LastName = lastNameInput, Adress = adressInput, ZipCode = postalCodeInput, City = postalAreaInput, PhoneNumber = phoneNumberInput, Email = emailAdressInput };
+            var guestShopper = new Models.Customer() 
+            { 
+                IdNumber = personalIdInput, 
+                FirstName = firstNameInput, 
+                LastName = lastNameInput, 
+                Adress = adressInput, 
+                ZipCode = postalCodeInput, 
+                City = postalAreaInput, 
+                PhoneNumber = phoneNumberInput, 
+                Email = emailAdressInput };
 
             using (var db = new Models.WebShopDBContext())
             {
@@ -135,15 +144,17 @@ namespace FurnitureOnline2
 
         public static Models.Customer MemberLogin()
         {
-            bool correct = false;
+            bool loggedIn = false;
 
-            while (!correct)
+            while (!loggedIn)
             {
-
-                Console.WriteLine("Ange ditt användarnamn, personnummer(ÅÅÅÅMMDD-NNNN) eller email: ");
-                string input = Console.ReadLine();
-                Console.WriteLine("Ange ditt lösenord:");
-                string password = Console.ReadLine();
+                string addUserDetails = "Ange ditt användarnamn, personnummer(ÅÅÅÅMMDD-NNNN) eller email: ";
+                string addPassword = "Ange ditt lösenord: ";
+                
+                Console.WriteLine(addUserDetails);
+                string userDetailInput = Console.ReadLine();
+                Console.WriteLine(addPassword);
+                string passwordInput = Console.ReadLine();
 
                 using (var db = new Models.WebShopDBContext())
                 {
@@ -151,9 +162,9 @@ namespace FurnitureOnline2
 
                     foreach (var customers in customerList)
                     {
-                        if ((customers.UserName == input || customers.IdNumber == input || customers.Email == input) && customers.Password == password)
+                        if ((customers.UserName == userDetailInput || customers.IdNumber == userDetailInput || customers.Email == userDetailInput) && customers.Password == passwordInput)
                         {
-                            correct = true;
+                            loggedIn = true;
                             return customers;
                         }
                     }

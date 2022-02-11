@@ -11,5 +11,3 @@ namespace FurnitureOnline2
         }
     }
 }
-
-// Scaffold-DbContext "Server=dbwebshop1.database.windows.net;Database=WebShopDB;User Id=Ladmin; Password=L'sdbwebshop1;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models

@@ -17,11 +17,11 @@ namespace FurnitureOnline2
         public int? ArticleNr { get; set; }
         public string ArticleName { get; set; }
         public int? Quantity { get; set; }
-        public float? ProductPris { get; set; }
+        public float? ProductPrice { get; set; }
         public string ShippingMethod { get; set; }
-
-
-
+        public int Payment { get; set; }
+        public int FirstName { get; set; }
+        public int LastName { get; set; }
 
     }
 }

@@ -87,21 +87,30 @@ namespace FurnitureOnline2
                 }
             }
 
-        public static string ModifyCategories()
+        public static string ModifyCategoryName()
         {
             string change = "";
-            Console.WriteLine("Vill du ändra namnet på en kategori?")
+            Console.WriteLine("Ange namnet på den befintliga kategorin du vill ändra på");
                 string input = Console.ReadLine();
 
-            if(input == "Ja")
+            using  (var db = new WebShopDBContext())
             {
-                Console.WriteLine("Ange det namnet på den befintliga kategorin");
-                string oldName = Console.ReadLine();
+                var categoryList = db.Categories;
 
-                if(oldName == CategoName)
+                var updateCategories = categoryList.SingleOrDefault(c => c.Name == input);
+
+                if (input != null)
+                {
+                    Console.WriteLine("Ange det nya namnet på kategorin");
+                    string newName = Console.ReadLine();
+
+                    updateCategories.Name = newName;
+                }
+                else
+                    Console.WriteLine("Den kategorin verkar inte finnas");
             }
-                // return old vs new change
-
+        }
+                // new vs old change
                 return change;
         }
     }

@@ -77,6 +77,11 @@ namespace FurnitureOnline2
             ShowAllSupplier();
             using (var db = new Models.WebShopDBContext())
             {
+                Console.WriteLine("Vilken leverantör vill du ta bort?");
+                string input = Console.ReadLine();
+
+                var supplierList = db.Suppliers;
+                var deleteSupplier = supplierList.SingleOrDefault(p => p.Name == input);
 
                 Console.WriteLine("Vad vill du ändra?\n1. Adress\n2. Namnn\n3.Gömd artikel");
                 int input = Convert.ToInt32(Console.ReadLine());

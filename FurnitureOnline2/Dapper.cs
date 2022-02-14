@@ -163,7 +163,8 @@ namespace FurnitureOnline2
     }
 }
 
-// metod för ta bort kategori, produkt & leverantör
-// mer statistik grejer 
-// ändra kategori, produkt & leverantör (
+// metod förändra & ta bort produkt 
 // lägga till momshantering (CurrentPrice = inc. moms)
+// mer statistik grejer?
+// TESTA ALLT
+// Fina till menyn

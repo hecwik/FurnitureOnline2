@@ -63,7 +63,7 @@ namespace FurnitureOnline2
             using (var db = new WebShopDBContext())
             {
                 var productList = from
-                                    product in db.Products
+                                  product in db.Products
                                   join
                                   Category in db.Categories on product.CategoryId equals Category.Id
                                   join Supplier in db.Suppliers on product.SupplierId equals Supplier.Id
@@ -105,12 +105,85 @@ namespace FurnitureOnline2
 
         public static void SearchProduct()
         {
+            using (var db = new WebShopDBContext())
+            {
+                var product = db.Products;
+                    
+            }
             Console.WriteLine("Ange namnet på produkten du vill söka på");
             string inputName = Console.ReadLine();
 
+
+
         }
+        /// <summary>
+        /// Adds a new available product
+        /// </summary>
+        /// <returns></returns>/
+        public static int AddProduct()
+        {
+            using (var db = new WebShopDBContext())
+            {
+
+                var products = db.Products;
+
+                var newProduct = new Models.Product();
+
+                EnterNewProductDetails(newProduct);
+
+                products.Add(newProduct);
+                db.SaveChanges();
+            }
+        }
+        
+        public static Models.Product EnterNewProductDetails(Models.Product newProd)
+        {
+            Console.Write("Skriv in artikelnumret: ");
+            newProduct.ArticleNumber = Convert.ToInt32(Console.ReadLine());
+            Console.Write("Skriv in namnet på produkten: ");
+            newProduct.Name = Console.ReadLine();
+            Console.Write("Vad kostar produkten?");
+            newProduct.CurrentPrice = Convert.ToDouble(Console.ReadLine());
+            // metod för ny kategori
+            Console.Write("Skriv in ID för produktens kategori: ");
+            newProduct.CategoryId = Convert.ToInt32(Console.ReadLine());
+            // metod för ny leverantör
+            Console.Write("Skriv in ID för leverantör: ");
+            newProduct.SupplierId = Convert.ToInt32(Console.ReadLine());
+            Console.Write("Är detta en utvald produkt? (Ja eller Nej: ");
+            string inputChosen = Console.ReadLine();
+            if (inputChosen == "Ja")
+                newProduct.ChosenItem = true;
+            else
+                newProduct.ChosenItem = false;
+
+            Console.Write("Hur många varor finns i lagret?: ");
+            newProduct.StockUnit = Convert.ToInt32(Console.ReadLine());
+            Console.Write("Lägg till en beskrivning för produkten: ");
+            newProduct.Description = Console.ReadLine();
+            Console.Write("Vad har varan för färg?: ");
+            newProduct.Color = Console.ReadLine();
+            Console.Write("Vad är varan av för material?");
+            newProduct.Material = Console.ReadLine();
+            Console.Write("Ange moms: ");
+            newProduct.Moms = Convert.ToDouble(Console.ReadLine());
+            Console.Write("Ska varan vara dold?: ");
+            string inputHidden = Console.ReadLine();
+            if (inputHidden == "Ja")
+                newProduct.HiddenArticle = true;
+            else
+                newProduct.HiddenArticle = false;
+        }
+        public static string ModifyArticleDetails()
+            {
+            string change = "";
+            // return old vs new change
+
+            return change;
+            } 
     }
 }
+// lägg till i metod som visas när man kallar på produktlista
 /*
  Console.WriteLine("Vilken produkt vill du klicka in på? Ange artikelnumret");
             int input = Convert.ToInt32(Console.ReadLine());

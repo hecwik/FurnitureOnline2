@@ -9,9 +9,13 @@ namespace FurnitureOnline2
 {
     class Customers
     {
+        /// <summary>
+        /// Method for registering new members or logging in members
+        /// </summary>
+        /// <returns></returns>/
         public static Models.Customer DetermineMember()
         {
-            Console.WriteLine("Är du medlem?");
+            Console.Write("Är du medlem? (Ja eller Nej): ");
             string input = Console.ReadLine();
 
             var member = new Models.Customer();
@@ -22,7 +26,7 @@ namespace FurnitureOnline2
             }
             else if (input == "Nej")
             {
-                Console.WriteLine("Vill du bli medlem?");
+                Console.Write("Vill du bli medlem (Ja eller Nej): ?");
                 string input2 = Console.ReadLine();
 
                 if (input2 == "Ja")

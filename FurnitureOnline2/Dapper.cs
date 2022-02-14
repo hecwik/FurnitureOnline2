@@ -25,14 +25,14 @@ namespace FurnitureOnline2
                         FROM OrderHistory
                         Where CustomerId ";
 
-            if (customer != 0)sql += "= " + customer.ToString();
+            if (customer != 0)  sql += "= " + customer.ToString();
             if (customer == 0) sql += " between 1 AND 10000 ";
             using (var connection = new SqlConnection(connString))
             {
                 connection.Open();
                 var orderlist = connection.Query<Models.OrderHistory>(sql).ToList();
 
-                foreach (var item  in orderlist)
+                foreach (var item in orderlist)
                 {
                     returnString += $"{item.Id}  {item.OrderDate}  {item.TotalPrice}";
                 }
@@ -60,7 +60,7 @@ namespace FurnitureOnline2
                 connection.Open();
                 var product = connection.Query<ShowSpecificOrderQuery>(sql).ToList();
 
-                string returnString =$"{product[0].OrderDate} har kund {product[0].FirstName} {product[0].LastName} har genomfört följande order:\n";
+                string returnString =  $"{product[0].OrderDate} har kund {product[0].FirstName} {product[0].LastName} har genomfört följande order:\n";
                 returnString = $"SAMMANSTÄLLNING\n\n{"ART.NR.",-10}{"PRODUKTNAMN",-25}{"PRIS",-14}{"ANTAL",-17}{"TOTAL KOSTNAD PER ARTIKEL",-30}\n";
                 foreach (var item in product)
                 {
@@ -70,7 +70,7 @@ namespace FurnitureOnline2
                 returnString += $"\nFraktadress: {product[0].ShippingAdress}\nPostnummer: {product[0].ShippingZipCode}\nStad: {product[0].ShippingCity}\nFraktmetod: {product[0].ShippingMethod}\nBetalningssätt: {product[0].Payment}\nA";
                 return returnString;
             }
-            
+
         }
 
         /// <summary>
@@ -85,19 +85,19 @@ namespace FurnitureOnline2
                       Join Products p ON oh.Id = p.ArticleNumber
                       Group by Name";
 
-                using (var connection = new SqlConnection(connString))
-                {
+            using (var connection = new SqlConnection(connString))
+            {
 
                 connection.Open();
                 var product = connection.Query<Models.StatisticalQuery>(sql).ToList();
-                string returnString =  $"Mest sålda produkter\n {"ProduktNamn: ", -10} {"Antal produkter: ", -10} {"Total pris: "}\n ";
-                
-                foreach(var item in product)
+                string returnString = $"Mest sålda produkter\n {"ProduktNamn: ",-10} {"Antal produkter: ",-10} {"Total pris: "}\n ";
+
+                foreach  (var item in product)
                 {
-                    returnString += $"{item.ProductName,-10}    {item.ProductQuantity,-10}  {item.TotalProductPrice,-10}"
+                    returnString += $"{item.ProductName,-10}    {item.Quantity,-10}  {item.TotalProductPrice,-10}";
                 }
 
-                returnString;
+                 return returnString;
             }
         }
 
@@ -116,11 +116,11 @@ namespace FurnitureOnline2
             {
                 connection.Open();
                 var statisticList = connection.Query<Models.StatisticalQuery>(sql);
-                
+
 
                 foreach (var item in statisticList)
                 {
-                    returnstring += $"{item.City, -20}{item.Quantity, -10}";
+                    returnstring += $"{item.City,-20}{item.Quantity,-10}";
                 }
             }
             return returnstring;
@@ -129,23 +129,41 @@ namespace FurnitureOnline2
         /// Shows a list of all the members and their information
         /// </summary>
         /// <returns></returns>
-        public static string MemberList(){
+        public static string MemberList()  {
             var sql = @"Select Id, FirstName, LastName, UserName FROM Customer Where Membership = 1";
             var returnString = "Medlemslista:";
             using (var connection = new SqlConnection(connString))
             {
                 connection.Open();
                 var memberList = connection.Query<Models.Customer>(sql);
-                returnString += $"{"Kundnr:",-10}{"Namn:", -30}{"Adress:", -15}{"Postnummer:", -8}{"Stad:", -10}{"Username:", -15}{"Epost:", -15}{"Personnummer:", -20}\n";
+                returnString += $"{"Kundnr:",-10}{"Namn:",-30}{"Adress:",-15}{"Postnummer:",-8}{"Stad:",-10}{"Username:",-15}{"Epost:",-15}{"Personnummer:",-20}\n";
 
                 foreach (var item in memberList)
                 {
-                    returnString += $"{item.Id, -10}{item.FirstName + " " + item.LastName, -30}{item.Adress, -15}{item.ZipCode, -8}{item.City, -10}{item.UserName, -15}{item.Email, -15}{item.IdNumber, -20}\n";
+                    returnString += $"{item.Id,-10}{item.FirstName + " " + item.LastName,-30}{item.Adress,-15}{item.ZipCode,-8}{item.City,-10}{item.UserName,-15}{item.Email,-15}{item.IdNumber,-20}\n";
                 }
             }
             return returnString;
-         }
+        }
 
+        /// <summary>
+        /// Search for a product in the database
+        /// </summary>/
+        public static void SearchForAProduct()
+        {
+            string sql = "";
+            Console.Write("Sök efter en produkt: ");
+            string productSearch = Console.ReadLine();
 
+            if (int.TryParse(productSearch, out int result))
+                sql = $"Select Name, ArticleNumber FROM Products WHERE ArticleNumber = {result}";
+            else
+                sql = $"Select Name, ArticleNumber FROM Products WHERE Name LIKE '%{productSearch}%'";
+        }
     }
 }
+
+// metod för ta bort kategori, produkt & leverantör
+// mer statistik grejer 
+// ändra kategori, produkt & leverantör (
+// lägga till momshantering (CurrentPrice = inc. moms)

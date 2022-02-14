@@ -23,8 +23,8 @@ namespace FurnitureOnline2
                     Console.WriteLine($"{shipping.Id,-3}" +
                         $"{shipping.Name,-20}" +
                         $"{shipping.Price,-13:C2}\n" +
-                        $"{shipping.Specification,-25}\n"); // uppdatera & kontrollera
-                                                            // att Id börjar från 1
+                        $"{shipping.Specification,-25}\n"); 
+                                                            
                 }
             }
         }

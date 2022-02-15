@@ -70,16 +70,15 @@ namespace FurnitureOnline2
         }
         public static void UpdateSupplier()
         {
-            ShowAllSupplier();
             using (var db = new Models.WebShopDBContext())
             {
-                Console.WriteLine("Vilken leverantör vill du ta bort?");
+                Console.WriteLine("Vilken leverantör vill du ta bort? (Ange namn)");
                 string input = Console.ReadLine();
 
                 var supplierList = db.Suppliers;
                 var updateSupplier = supplierList.SingleOrDefault(p => p.Name == input);
 
-                Console.WriteLine("Vad vill du ändra?\n1. Adress\n2. Namnn\n3.Gömd artikel");
+                Console.WriteLine("Vad vill du ändra?\n1. Adress\n2. Namn\n3.Gömd artikel");
                 int input2 = Convert.ToInt32(Console.ReadLine());
 
                 if (input2 == 1)
@@ -98,7 +97,7 @@ namespace FurnitureOnline2
                 }
                 else
                 {
-                    Console.Write("Vill du att artikeln ska vara gömd? Ja/Nej ");
+                    Console.Write("Vill du att leverantören ska vara gömd? Ja/Nej ");
                     input = Console.ReadLine();
                     if (input == "Ja")
                     {

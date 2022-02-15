@@ -19,9 +19,8 @@ namespace FurnitureOnline2
         /// <returns></returns>/
         public static string OrderList(int customer)
         {
-
             string returnString = "";
-            var sql = @"Select Id, OrderDate, TotalPrice  
+            var sql = @"Select Id, CustomerId, OrderDate, TotalPrice  
                         FROM OrderHistory
                         Where CustomerId ";
 
@@ -32,11 +31,11 @@ namespace FurnitureOnline2
                 connection.Open();
                 var orderlist = connection.Query<Models.OrderHistory>(sql).ToList();
 
+                returnString = $"SAMMANSTÄLLNING\n\n{"KUND-ID",-10}{"ORDER-ID",-10}{"ORDERDATUM",-25}{"TOTAL KOSTNAD",-30}\n";
                 foreach (var item in orderlist)
                 {
-                    returnString += $"{item.Id}  {item.OrderDate}  {item.TotalPrice}";
+                    returnString += $"{item.CustomerId,-10}{item.Id,-10}{item.OrderDate,-25}{item.TotalPrice,-15:C2}\n";
                 }
-
             }
             return returnString;
         }
@@ -60,7 +59,7 @@ namespace FurnitureOnline2
                 connection.Open();
                 var product = connection.Query<ShowSpecificOrderQuery>(sql).ToList();
 
-                string returnString =  $"{product[0].OrderDate} har kund {product[0].FirstName} {product[0].LastName} har genomfört följande order:\n";
+                string returnString = $"{product[0].OrderDate} har kund {product[0].FirstName} {product[0].LastName} har genomfört följande order:\n";
                 returnString = $"SAMMANSTÄLLNING\n\n{"ART.NR.",-10}{"PRODUKTNAMN",-25}{"PRIS",-14}{"ANTAL",-17}{"TOTAL KOSTNAD PER ARTIKEL",-30}\n";
                 foreach (var item in product)
                 {

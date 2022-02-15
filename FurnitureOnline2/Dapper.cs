@@ -94,7 +94,7 @@ namespace FurnitureOnline2
 
                 foreach (var item in product)
                 {
-                    returnString += $"{item.Item1,-20}\n{item.Item2,-10}\n{item.Item3,-10}";
+                    returnString += $"{item.Item1,-20}\n{item.Item2,-10}{item.Item3,-10}";
                 }
                 Console.WriteLine(returnString);
                 return returnString;

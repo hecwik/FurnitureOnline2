@@ -66,9 +66,9 @@ namespace FurnitureOnline2
                 {
                     returnString += $"{item.ArticleNumber,-10}{item.ProductName,-25}{item.UnitPrice,-14:C2}{item.Quantity,-17}{item.TotalAmount,-10:C2}\n";
                     summa += item.TotalAmount;
-                    summaExcludingVat += (item.TotalAmount * item.Moms);
+                    summaExcludingVat += item.TotalAmount * item.Moms;
                 }
-                returnString += $"\nTOTAL KOSTNAD FÖR ALLA ARTIKLAR: {summa:C2}\nEXKLUSIVE MOMS: {summaExcludingVat}";
+                returnString += $"\nTOTAL KOSTNAD FÖR ALLA ARTIKLAR: {summa:C2}\nEXKLUSIVE MOMS: {summa}";
                 return returnString;
             }
         }

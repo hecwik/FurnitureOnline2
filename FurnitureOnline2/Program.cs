@@ -63,7 +63,7 @@ namespace FurnitureOnline2
                         Console.WriteLine(ShoppingCart.ShowShoppingCart(out _, out _));
                         Console.WriteLine("Vill du gå till kassan?");
 
-                        // check out method.
+                        Orderhistory.CheckOut();
                         Console.WriteLine();
                         break;
 

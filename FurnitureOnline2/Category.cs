@@ -113,11 +113,11 @@ namespace FurnitureOnline2
                                           ArticleNumber = product.ArticleNumber
                                       };
 
-                    string returnString = $"PRODUKTLISTA\n\n{"ART.NR.",-10}{"PRODUKTNAMN",-25}{"PRIS",-14}{"KATEGORI",-17}{"BESKRIVNING",-20}{"FÄRG",-10}{"MATERIAL",-10}{"LAGERSALDO",-25}\n";
+                    string returnString = $"PRODUKTLISTA\n\n{"ART.NR.",-10}{"PRODUKTNAMN",-25}{"PRIS",-14}{"KATEGORI",-17}{"FÄRG",-10}{"MATERIAL",-10}{"LAGERSALDO",-25}\n";
 
                     foreach (var product in productList)
                     {
-                        returnString += $"{product.ArticleNumber,-10}{product.ProductName,-25}{product.Price,-14:C2}{product.CategoryName,-17}{product.Description,-20}{product.Color,-10}{product.Material,-14}{product.stockUnit,-17}\n";
+                        returnString += $"{product.ArticleNumber,-10}{product.ProductName,-25}{product.Price,-14:C2}{product.CategoryName,-17}{product.Color,-10}{product.Material,-14}{product.stockUnit,-17}\n";
                     }
                     return returnString;
                 }

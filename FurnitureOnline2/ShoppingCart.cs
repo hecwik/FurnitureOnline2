@@ -57,7 +57,6 @@ namespace FurnitureOnline2
         public static string ShowShoppingCart(out double? summa, out double? summaExcludingVat)
         {
             summa = 0;
-
             using (var db = new WebShopDBContext())
             {
                 var cartList = from
@@ -101,7 +100,6 @@ namespace FurnitureOnline2
                 {
                     cartTable.Remove(item);
                 }
-
                 db.SaveChanges();
             }
         }
@@ -128,7 +126,6 @@ namespace FurnitureOnline2
                         UpdateQuantityInCart(articleNr, input2);
                         break;
 
-
                     case 2:
 
                         Console.WriteLine("Ange artikelnr. på den produkt du vill ta bort?");
@@ -151,7 +148,6 @@ namespace FurnitureOnline2
                         break;
                 }
             }
-
         }
     }
 }

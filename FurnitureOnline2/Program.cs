@@ -30,7 +30,6 @@ namespace FurnitureOnline2
 
             while (isRunning)
             {
-                Console.Clear();
                 Console.WriteLine("Välj enligt menyn:");
                 Console.WriteLine("[1] Sök på produkt\n" +
                     "[2] Se produktlista\n" +

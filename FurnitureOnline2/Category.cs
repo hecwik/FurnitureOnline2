@@ -122,14 +122,11 @@ namespace FurnitureOnline2
                     return returnString;
                 }
             }
-
             catch
             {
                 Console.WriteLine("Felaktig inmatning, ange namnet med bokstäver");
             }
-
             return null;
-
         }
 
         public static void ModifyCategoryName()
@@ -156,8 +153,6 @@ namespace FurnitureOnline2
 
                 db.SaveChanges();
             }
-
         }
-
     }
 }

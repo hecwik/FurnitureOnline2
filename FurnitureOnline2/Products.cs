@@ -255,6 +255,7 @@ namespace FurnitureOnline2
                         switch (choice)
                         {
                             case 1:
+                                Console.Write("Vald produkt: " + ShowAProductToCustomer(product.ArticleNumber));
                                 Console.Write($"Nuvarande artikelnummer: {product.ArticleNumber}");
                                 Console.Write("Skriv in det nya artikelnumret: ");
                                 product.ArticleNumber = Convert.ToInt32(Console.ReadLine());
@@ -266,7 +267,7 @@ namespace FurnitureOnline2
                                 string oldName = product.Name;
                                 Console.Write($"Skriv in ett nytt namn på {oldName}: ");
                                 product.Name = Console.ReadLine();
-                                retString = $"Nytt namn: {product.Name}";
+                                retString = $"Nytt namn: {product.Name}\n";
                                 isRunning = KeepEditing();
                                 break;
 
@@ -337,7 +338,7 @@ namespace FurnitureOnline2
                                 break;
 
                             case 12:
-                                Console.WriteLine("Ska varan vara dold?");
+                                Console.Write("Ska varan vara dold? (Ja/Nej)");
                                 product.HiddenArticle = InputYesOrNo();
                                 if (product.HiddenArticle == true)
                                     Console.WriteLine($"{product.Name} är ändrad till en dold produkt.");

@@ -1,9 +1,7 @@
-﻿using System;
+﻿using FurnitureOnline2.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FurnitureOnline2.Models;
 
 namespace FurnitureOnline2
 {
@@ -19,7 +17,7 @@ namespace FurnitureOnline2
 
                 foreach (var product in chosenProducts)
                 {
-                    returnString += $"{product.Name}, {product.CurrentPrice} kr \t";
+                    returnString += $"{product.Name,-20} {product.CurrentPrice,-15:C2}\n";
                 }
                 return returnString;
             }
@@ -48,17 +46,17 @@ namespace FurnitureOnline2
                                       ArticleNumber = product.ArticleNumber
                                   };
 
-                string returnString = $"PRODUKTLISTA\n\n{"ART.NR.",-10}{"PRODUKTNAMN",-25}{"PRIS",-14}{"KATEGORI",-17}{"LEVERANTÖR",-20}{"LAGERSALDO",-25}\n";
+                string returnString = $"PRODUKTLISTA\n\n{"ART.NR.",-10}{"PRODUKTNAMN",-30}{"PRIS",-14}{"KATEGORI",-17}{"LEVERANTÖR",-20}{"LAGERSALDO",-25}\n";
 
                 foreach (var product in productList)
                 {
-                    returnString += $"{product.ArticleNumber,-10}{product.ProductName,-25}{string.Format("{0:0.00}", product.Price) + " kr",-14}{product.CategoryName,-17}{product.SupplierName,-20}{product.stockUnit,-17}\n";
+                    returnString += $"{product.ArticleNumber,-10}{product.ProductName,-30}{product.Price,-17:C2}{product.CategoryName,-17}{product.SupplierName,-20}{product.stockUnit,-17}\n";
                 }
                 return returnString;
             }
         }
 
-        public static string ShowAProduct(int articleNr)
+        public static string ShowAProductToCustomer(int articleNr)
         {
             using (var db = new WebShopDBContext())
             {
@@ -67,26 +65,80 @@ namespace FurnitureOnline2
                                   join
                                   Category in db.Categories on product.CategoryId equals Category.Id
                                   join Supplier in db.Suppliers on product.SupplierId equals Supplier.Id
-                                  select new ProductListQuery 
+                                  select new ProductListQuery
                                   {
-                                      Id = product.Id, 
-                                      ProductName = product.Name, 
-                                      Price = product.CurrentPrice, 
-                                      CategoryName = Category.Name, 
-                                      SupplierName = Supplier.Name, 
-                                      stockUnit = product.StockUnit, 
-                                      Description = product.Description, 
-                                      Color = product.Color, Material = 
-                                      product.Material, 
-                                      ArticleNumber = product.ArticleNumber 
+                                      Id = product.Id,
+                                      ProductName = product.Name,
+                                      Price = product.CurrentPrice,
+                                      CategoryName = Category.Name,
+                                      SupplierName = Supplier.Name,
+                                      stockUnit = product.StockUnit,
+                                      Description = product.Description,
+                                      Color = product.Color,
+                                      Material = product.Material,
+                                      ArticleNumber = product.ArticleNumber
                                   };
                 var specificArticle = productList.Where(a => a.ArticleNumber == articleNr).ToList();
 
-                return $"{specificArticle[0].ProductName.ToUpper()}\n\nProduktbeskrivning: \n{specificArticle[0].Description}\n\nProduktfakta:\nArtikelnt: {specificArticle[0].Id}\nKategori: {specificArticle[0].CategoryName}\nLeverantör: {specificArticle[0].SupplierName}\nFärg: {specificArticle[0].Color}\nMaterial: {specificArticle[0].Material}";
+                return $"{specificArticle[0].ProductName.ToUpper()}\n\n" +
+                    $"Produktbeskrivning: \n{specificArticle[0].Description}\n\n" +
+                    $"== Produktfakta ==\n" +
+                    $"Artikelnr: {specificArticle[0].Id}\n" +
+                    $"Kategori: {specificArticle[0].CategoryName}\n" +
+                    $"Leverantör: {specificArticle[0].SupplierName}\n" +
+                    $"Färg: {specificArticle[0].Color}\n" +
+                    $"Material: {specificArticle[0].Material}";
 
             }
         }
+        public static string ShowAllProductDetails(int articleNr)
+        {
+            using (var db = new WebShopDBContext())
+            {
+                var productList = from
+                                  product in db.Products
+                                  join
+                                  Category in db.Categories on product.CategoryId equals Category.Id
+                                  join Supplier in db.Suppliers on product.SupplierId equals Supplier.Id
+                                  select new ProductListQuery
+                                  {
+                                      Id = product.Id,
+                                      ProductName = product.Name,
+                                      Price = product.CurrentPrice,
+                                      CategoryName = Category.Name,
+                                      SupplierName = Supplier.Name,
+                                      stockUnit = product.StockUnit,
+                                      Description = product.Description,
+                                      Color = product.Color,
+                                      Material = product.Material,
+                                      ArticleNumber = product.ArticleNumber
+                                  };
+                var specificArticle = productList.Where(a => a.ArticleNumber == articleNr).ToList();
 
+                return $"{specificArticle[0].ProductName.ToUpper()}\n\n" +
+                    $"Produktbeskrivning: \n{specificArticle[0].Description}\n\n" +
+                    $"== Produktfakta ==\n" +
+                    $"Artikelnr: {specificArticle[0].Id}\n" +
+                    $"Kategori: {specificArticle[0].CategoryName}\n" +
+                    $"Leverantör: {specificArticle[0].SupplierName}\n" +
+                    $"Färg: {specificArticle[0].Color}\n" +
+                    $"Material: {specificArticle[0].Material}";
+
+                /*Console.Write($"[{selectNumber++}] Artikelnummer");
+                Console.Write($"[{selectNumber++}] Namnet på produkten");
+                Console.Write($"[{selectNumber++}] Kostnad för produkten");
+                Console.Write($"[{selectNumber++}] Produktens kategori-ID");
+                Console.Write($"[{selectNumber++}] Leverantörens ID");
+                Console.Write($"[{selectNumber++}] Utvald produkt?");
+                Console.Write($"[{selectNumber++}] Hur många varor som finns i lager");
+                Console.Write($"[{selectNumber++}] Produktbeskrivning");
+                Console.Write($"[{selectNumber++}] Färg på varan");
+                Console.Write($"[{selectNumber++}] Varans material");
+                Console.Write($"[{selectNumber++}] Ange moms");
+                Console.Write($"[{selectNumber++}] Ska varan vara dold?");*/
+
+            }
+        }
         public static void UpdateStockUnit(int articleNr, int Quantity)
         {
             using (var db = new WebShopDBContext())
@@ -103,16 +155,14 @@ namespace FurnitureOnline2
             }
         }
 
-        
         /// <summary>
         /// Adds a new available product
         /// </summary>
         /// <returns></returns>/
-        public static int AddProduct()
+        public static Models.Product AddProduct()
         {
             using (var db = new WebShopDBContext())
             {
-
                 var products = db.Products;
 
                 var newProduct = new Models.Product();
@@ -121,9 +171,11 @@ namespace FurnitureOnline2
 
                 products.Add(newProduct);
                 db.SaveChanges();
+
+                return newProduct;
             }
         }
-        
+
         public static Models.Product EnterNewProductDetails(Models.Product newProduct)
         {
             Console.Write("Skriv in artikelnumret: ");
@@ -161,50 +213,204 @@ namespace FurnitureOnline2
                 newProduct.HiddenArticle = true;
             else
                 newProduct.HiddenArticle = false;
-            
+
             return newProduct;
         }
-        public static string ModifyArticleDetails()
+
+        public static string ModifyProductDetails(Models.Product product)
+        {
+            string retString = "";
+            using (var db = new WebShopDBContext())
             {
-            string change = "";
-            // return old vs new change
+                bool isRunning = true;
+                
+                while (isRunning)
+                {
+                    int selectNumber = 0;
+                    // ändra ordning så den blir mer passande
+                    Console.Write($"Vad vill du ändra hos {product.Name}?");
 
-            return change;
+                    Console.Write($"[{selectNumber++}] Artikelnummer");
+                    Console.Write($"[{selectNumber++}] Namnet på produkten");
+                    Console.Write($"[{selectNumber++}] Kostnad för produkten");
+                    Console.Write($"[{selectNumber++}] Produktens kategori-ID");
+                    Console.Write($"[{selectNumber++}] Leverantörens ID");
+                    Console.Write($"[{selectNumber++}] Utvald produkt?");
+                    Console.Write($"[{selectNumber++}] Hur många varor som finns i lager");
+                    Console.Write($"[{selectNumber++}] Produktbeskrivning");
+                    Console.Write($"[{selectNumber++}] Färg på varan");
+                    Console.Write($"[{selectNumber++}] Varans material");
+                    Console.Write($"[{selectNumber++}] Ange moms");
+                    Console.Write($"[{selectNumber++}] Ska varan vara dold?");
+
+                    string editInput = Console.ReadLine();
+
+                    if (Int32.TryParse(editInput, out int choice))
+                    {
+                        switch (choice)
+                        {
+                            case 1:
+                                Console.Write($"Nuvarande artikelnummer: {product.ArticleNumber}");
+                                Console.Write("Skriv in det nya artikelnumret: ");
+                                product.ArticleNumber = Convert.ToInt32(Console.ReadLine());
+                                retString = $"Nytt artikelnummer: {product.ArticleNumber}";
+                                break;
+
+                            case 2:
+                                string oldName = product.Name;
+                                Console.Write($"Skriv in ett nytt namn på {oldName}: ");
+                                product.Name = Console.ReadLine();
+                                retString = $"Nytt namn: {product.Name}";
+                                break;
+
+                            case 3:
+                                Console.Write("Ange nytt pris för produkten: ");
+                                product.CurrentPrice = Convert.ToDouble(Console.ReadLine());
+                                retString = $"Nytt pris: {product.ArticleNumber}";
+                                break;
+
+                            case 4:
+                                Console.Write("Ange nytt kategori-ID för produkten: ");
+                                product.CategoryId = Convert.ToInt32(Console.ReadLine());
+                                retString = $"Nytt ID: {product.CategoryId}";
+                                break;
+
+                            case 5:
+                                Console.WriteLine("Ange ny leverantörs-ID: ");
+                                product.SupplierId = Convert.ToInt32(Console.ReadLine());
+                                retString = $"Nytt ID: {product.SupplierId}";
+                                break;
+
+                            case 6:
+                                Console.WriteLine("Ändra om produkten skall vara utvald: ");
+                                string inputYesNo = Console.ReadLine();
+                                // throw out variable outChoice as true or false
+                                product.ChosenItem = InputYesOrNo(); // sets chosenitem depending on out variable from InputYesOrNo
+                                if (product.ChosenItem == true)
+                                    Console.WriteLine($"{product.Name} är en utvald produkt.");
+                                else
+                                    Console.WriteLine($"{product.Name} är inte en utvald produkt.");
+                                break;
+
+                            case 7:
+                                Console.Write("Ange nytt antal varor i lagret: ");
+                                product.StockUnit = Convert.ToInt32(Console.ReadLine());
+                                retString = $"Nytt antal i lager: {product.StockUnit}";
+                                break;
+
+                            case 8:
+                                Console.Write("Lägg till en ny beskrivning för produkten: ");
+                                product.Description = Console.ReadLine();
+                                break;
+
+                            case 9:
+                                Console.Write("Ange en ny färg på varan: ");
+                                product.Color = Console.ReadLine();
+                                break;
+
+                            case 10:
+                                Console.Write("Ange nytt material för varan: ");
+                                product.Material = Console.ReadLine();
+                                break;
+
+                            case 11:
+                                Console.Write("Ange ny moms för varan: ");
+                                double? momsInput = Convert.ToDouble(Console.ReadLine());
+                                product.Moms = momsInput;
+                                retString = $"Ny moms för {product.Name}: {product.Moms}";
+                                break;
+
+                            case 12:
+                                Console.WriteLine("Ska varan vara dold?");
+                                product.HiddenArticle = InputYesOrNo();
+                                if (product.HiddenArticle == true)
+                                    Console.WriteLine($"{product.Name} är ändrad till en dold produkt.");
+                                else
+                                    Console.WriteLine($"{product.Name} är ändrad till en ej dold produkt.");
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Felaktig inmatning");
+                    }
+                }
             }
-
+            return retString;
+        }
+        /// <summary>
+        /// Gets a specific product based on article number.
+        /// </summary>
         public static void AskForASpecificProduct()
         {
             Console.WriteLine("Vilken produkt vill du klicka in på? Ange artikelnumret");
             int input = Convert.ToInt32(Console.ReadLine());
-            Console.WriteLine(Products.ShowAProduct(input));
+
+            Console.WriteLine(ShowAProductToCustomer(input));
             Console.WriteLine("Vill du lägga till den i varukorgen? Skriv isåfall 'Ja' ");
             string stringInput = Console.ReadLine();
+            
             if (stringInput == "Ja")
             {
-                Console.WriteLine("Hur många exemplar av denna artikel vill du ha?");
+                Console.Write("Hur många exemplar av denna artikel vill du ha?: ");
                 int number = Convert.ToInt32(Console.ReadLine());
                 var newProductInCart = new Models.ShoppingCart() { ProductsId = input, AmountOfItems = number };
-                ShoppingCart.AddProduct(newProductInCart);
+                ShoppingCart.AddProductToCart(newProductInCart);
+            }
+        }
+        // metod för att ta bort produkt
+        /// <summary>
+        /// Removes a specific product based on name.
+        /// </summary>
+        public static void RemoveProduct()
+        {
+            ShowAllProducts();
+
+            Console.WriteLine("Ange namnet på produkten du vill ta bort");
+            string input = Console.ReadLine();
+
+            using (var db = new WebShopDBContext())
+            {
+                var products = db.Categories;
+                var updateProducts = products.SingleOrDefault(c => c.Name == input);
+
+                if (updateProducts != null)
+                {
+                    try
+                    {
+                        products.Remove(updateProducts);
+                    }
+                    catch
+                    {
+                        Console.WriteLine("Den här kategorin finns nog redan i någons orderhistorik och kan därför inte tas bort.\nVill du gömma produkten istället?");
+                        string inputHide = Console.ReadLine();
+
+                        if (inputHide == "Ja")
+
+                            updateProducts.HiddenCategory = true;
+                        else
+                            updateProducts.HiddenCategory = false;
+                    }
+                    db.SaveChanges();
+
+                }
+                else Console.WriteLine("Hittade ingen sådan produkt");
             }
         }
 
-        public static void AskForProductsInSpecificCategory()
+
+        /// <summary>
+        /// Returns true if ja and false if else
+        /// </summary>
+        /// <returns></returns>
+        public static bool? InputYesOrNo()
         {
-            Category.ShowAllCategories();
-            Console.WriteLine("I vilken kategori vill du se produkter i? Ange id.");
-            int input = Convert.ToInt32(Console.ReadLine());
+            string inChoice = Console.ReadLine();
 
+            if (inChoice.ToUpper() == "JA") 
+            { return true; }
+            else 
+            { return false; }
         }
-
-
-
     }
-
-    
 }
-
-
-
-
-
- 

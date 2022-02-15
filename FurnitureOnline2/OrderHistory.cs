@@ -9,7 +9,7 @@ namespace FurnitureOnline2
 {
     class Orderhistory
     {
-        public static void Checkout()
+        public static void CheckOut()
         {
             var orderCustomer = Customers.DetermineMember();
             var OrderShippingMethod = Shipping.ChooseShipping();

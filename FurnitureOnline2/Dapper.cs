@@ -77,29 +77,86 @@ namespace FurnitureOnline2
         /// Shows the overall most sold products
         /// </summary>
         /// <returns></returns>/
-        public static string MostSoldProducts(bool desc)
+        public static string MostSoldProducts()
         {
-            var sql = @"Select Name, SUM(Quantity), SUM(Quantity * Price) FROM
-                      OrderDetail od
-                      Join OrderHistory oh ON od.OrderId = oh.Id
-                      Join Products p ON oh.Id = p.ArticleNumber
-                      Group by Name";
+            var sql = @"Select p.Name, SUM(Quantity), SUM(Quantity * Price) 
+                        FROM
+                        OrderDetail od
+                        Join OrderHistory oh ON od.OrderId = oh.Id
+                        Join Products p ON od.ProductsId = p.Id
+                        Group by p.Name";
 
             using (var connection = new SqlConnection(connString))
             {
-
                 connection.Open();
-                var product = connection.Query<Models.StatisticalQuery>(sql).ToList();
-                string returnString = $"Mest sålda produkter\n {"ProduktNamn: ",-10} {"Antal produkter: ",-10} {"Total pris: "}\n ";
+                var product = connection.Query<(string, int, int)>(sql).ToList();
+                string returnString = $"Mest sålda produkter\n {"ProduktNamn: ",-20} {"Antal produkter: ",-10} {"Total pris: "}\n ";
 
-                foreach  (var item in product)
+                foreach (var item in product)
                 {
-                    returnString += $"{item.ProductName,-10}    {item.Quantity,-10}  {item.TotalProductPrice,-10}";
+                    returnString += $"{item.Item1,-20}\n{item.Item2,-10}\n{item.Item3,-10}";
                 }
-
-                 return returnString;
+                Console.WriteLine(returnString);
+                return returnString;
             }
         }
+
+        public static string MostPopularCategory()
+        {
+            var sql = @"Select p.Name, SUM(Quantity), SUM(Quantity * Price) 
+                        FROM
+                        OrderDetail od
+                        Join OrderHistory oh ON od.OrderId = oh.Id
+                        Join Products p ON od.ProductsId = p.Id
+                        Group by p.Name
+                        Order by count(*) DESC";
+
+            using (var connection = new SqlConnection(connString))
+            {
+                connection.Open();
+                var product = connection.Query<(string, int)>(sql).ToList();
+
+
+                string returnString = $"{"Kategori:", -15}{"Antal ordrar", -10}";
+                string retString = "";                
+                Console.WriteLine(returnString);
+                foreach (var item in product)
+                {
+                    retString += $"{item.Item1,-15}{item.Item2,-10}";
+                }
+                return retString;
+            }
+        }
+
+
+        /*public static string NumberOfOrdersGroupedByAge()
+        {
+            var sql = @"SELECT
+                Case
+                When DATEDIFF(YEAR, CAST(LEFT(IdNumber, 8) AS DATE), GETDATE()) between 15 AND 25 Then 'Ålder 15-25'
+                When DATEDIFF(YEAR, CAST(LEFT(IdNumber, 8) AS DATE), GETDATE()) between 26 AND 50 Then 'Ålder 26-50'
+                When DATEDIFF(YEAR, CAST(LEFT(IdNumber, 8) AS DATE), GETDATE()) > 50 Then 'Ålder 50+'
+                End, COUNT(*)
+ 
+                FROM
+                Customer c
+                Join OrderHistory oh ON oh.CustomerId = c.Id
+                Group by (Case
+                When DATEDIFF(YEAR, CAST(LEFT(IdNumber, 8) AS DATE), GETDATE()) between 15 AND 25 Then 'Ålder 15-25'
+                When DATEDIFF(YEAR, CAST(LEFT(IdNumber, 8) AS DATE), GETDATE()) between 26 AND 50 Then 'Ålder 26-50'
+                When DATEDIFF(YEAR, CAST(LEFT(IdNumber, 8) AS DATE), GETDATE()) > 50 Then 'Ålder 50+'
+                End)";
+              using (var connection = new SqlConnection(connString))
+            {
+                connection.Open();
+                var product = connection.Query<(string, int)>(sql).ToList();
+
+                foreach (var item in product)
+                {
+                    Console.WriteLine($"{item.Item1,-10}{item.Item2,-10}");
+                }
+            }
+        }*/
 
         /// <summary>
         /// Shows cities in order of most orders made in descending order
@@ -129,7 +186,8 @@ namespace FurnitureOnline2
         /// Shows a list of all the members and their information
         /// </summary>
         /// <returns></returns>
-        public static string MemberList()  {
+        public static string MemberList()  
+       {
             var sql = @"Select Id, FirstName, LastName, UserName FROM Customer Where Membership = 1";
             var returnString = "Medlemslista:";
             using (var connection = new SqlConnection(connString))
@@ -171,16 +229,7 @@ namespace FurnitureOnline2
                 }
             }
         }
-
-        public static void ShowProductsInSpecificCategory(int categoryId)
-        {
-
-        }
     }
 }
-
-// metod förändra & ta bort produkt 
-// lägga till momshantering (CurrentPrice = inc. moms)
 // mer statistik grejer?
 // TESTA ALLT
-// Fina till menyn

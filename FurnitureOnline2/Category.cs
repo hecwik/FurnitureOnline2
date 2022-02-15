@@ -1,9 +1,7 @@
-﻿using System;
+﻿using FurnitureOnline2.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FurnitureOnline2.Models;
 
 namespace FurnitureOnline2
 {
@@ -65,35 +63,82 @@ namespace FurnitureOnline2
                     db.SaveChanges();
 
                 }
-                else
-                    Console.WriteLine("Hittade ingen sådan kategori");
+                else Console.WriteLine("Hittade ingen sådan kategori");
             }
         }
 
-            ///  Shows all categories that exist for admin 
-            public static string ShowAllCategories()
+        ///  Shows all categories that exist for admin 
+        public static string ShowAllCategories()
+        {
+            using (var db = new WebShopDBContext())
+            {
+                var categoryList = db.Categories;
+
+                string returnString = $"KATEGORILISTA\n\n{"KATEGORI-ID",-10}{"KATEGORINAMN",-10}";
+
+                foreach (var category in categoryList)
+                {
+                    returnString += $"{category.Id,-10}{category.Name,-10}\n";
+                }
+                return returnString;
+            }
+        }
+
+        public static string ChooseByCategory()
+        {
+            ShowAllCategories();
+
+            Console.WriteLine("Vilken kategori du vill gå in på? Ange namnet");
+            string categoryInput = Console.ReadLine().ToUpper();
+
+            try
             {
                 using (var db = new WebShopDBContext())
                 {
-                    var categoryList = db.Categories;
+                    var productList = from
+                                      product in db.Products
+                                      join
+                                      Category in db.Categories on product.CategoryId equals Category.Id
+                                      where Category.Name == categoryInput
+                                      select new ProductListQuery
+                                      {
+                                          Id = product.Id,
+                                          ProductName = product.Name,
+                                          Price = product.CurrentPrice,
+                                          CategoryName = product.Category.Name,
+                                          stockUnit = product.StockUnit,
+                                          Description = product.Description,
+                                          Color = product.Color,
+                                          Material = product.Material,
+                                          ArticleNumber = product.ArticleNumber
+                                      };
 
-                    string returnString = $"KATEGORILISTA\n\n{"KATEGORI-ID",-10}{"KATEGORINAMN",-10}";
+                    string returnString = $"PRODUKTLISTA\n\n{"ART.NR.",-10}{"PRODUKTNAMN",-25}{"PRIS",-14}{"KATEGORI",-17}{"BESKRIVNING",-20}{"FÄRG",-10}{"MATERIAL",-10}{"LAGERSALDO",-25}\n";
 
-                    foreach (var category in categoryList)
+                    foreach (var product in productList)
                     {
-                        returnString += $"{category.Id,-10}{category.Name,-10}\n";
+                        returnString += $"{product.ArticleNumber,-10}{product.ProductName,-25}{product.Price,-14:C2}{product.CategoryName,-17}{product.Description,-20}{product.Color,-10}{product.Material,-14}{product.stockUnit,-17}\n";
                     }
                     return returnString;
                 }
             }
 
+            catch
+            {
+                Console.WriteLine("Felaktig inmatning, ange namnet med bokstäver");
+            }
+
+            return null;
+
+        }
+
         public static void ModifyCategoryName()
         {
             ShowAllCategories();
             Console.WriteLine("Ange namnet på den befintliga kategorin du vill ändra på");
-                string input = Console.ReadLine();
+            string input = Console.ReadLine();
 
-            using  (var db = new WebShopDBContext())
+            using (var db = new WebShopDBContext())
             {
                 var categoryList = db.Categories;
 
@@ -108,11 +153,11 @@ namespace FurnitureOnline2
                 }
                 else
                     Console.WriteLine("Den kategorin verkar inte finnas");
+
                 db.SaveChanges();
             }
-           
+
         }
-               
+
     }
 }
-

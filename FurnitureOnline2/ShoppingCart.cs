@@ -7,7 +7,7 @@ namespace FurnitureOnline2
 {
     class ShoppingCart
     {
-        public static void AddProduct(Models.ShoppingCart cart)
+        public static void AddProductToCart(Models.ShoppingCart cart)
         {
             using (var db = new WebShopDBContext())
             {
@@ -49,13 +49,14 @@ namespace FurnitureOnline2
                                cart in db.ShoppingCarts
                                join
                                product in db.Products on cart.ProductsId equals product.ArticleNumber
-                               select new ShoppingCartQuery 
-                               { 
-                                   Id = cart.Id, 
-                                   ProductName = product.Name, 
-                                   UnitPrice = product.CurrentPrice, 
-                                   Quantity = cart.AmountOfItems, 
-                                   ArticleNumber = product.ArticleNumber };
+                               select new ShoppingCartQuery
+                               {
+                                   Id = cart.Id,
+                                   ProductName = product.Name,
+                                   UnitPrice = product.CurrentPrice,
+                                   Quantity = cart.AmountOfItems,
+                                   ArticleNumber = product.ArticleNumber
+                               };
 
                 string returnString = $"SAMMANSTÄLLNING\n\n{"ART.NR.",-10}{"PRODUKTNAMN",-25}{"PRIS",-14}{"ANTAL",-17}{"TOTAL KOSTNAD PER ARTIKEL",-30}\n";
                 summa = 0;
@@ -82,6 +83,7 @@ namespace FurnitureOnline2
                 {
                     cartTable.Remove(item);
                 }
+
                 db.SaveChanges();
             }
         }
@@ -101,7 +103,7 @@ namespace FurnitureOnline2
                         Console.WriteLine("Ange det antalet du vill ha");
                         int input2 = Convert.ToInt32(Console.ReadLine());
 
-                        ShoppingCart.UpdateQuantityInCart(articleNr, input2);
+                        UpdateQuantityInCart(articleNr, input2);
                         break;
 
 
@@ -118,6 +120,7 @@ namespace FurnitureOnline2
                             }
 
                             db.SaveChanges();
+
 
                         }
                         Console.WriteLine("Produkten finns inte i din kundvagn");

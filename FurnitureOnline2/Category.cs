@@ -87,9 +87,9 @@ namespace FurnitureOnline2
                 }
             }
 
-        public static string ModifyCategoryName()
+        public static void ModifyCategoryName()
         {
-            string change = "";
+            ShowAllCategories();
             Console.WriteLine("Ange namnet på den befintliga kategorin du vill ändra på");
                 string input = Console.ReadLine();
 
@@ -108,10 +108,11 @@ namespace FurnitureOnline2
                 }
                 else
                     Console.WriteLine("Den kategorin verkar inte finnas");
+                db.SaveChanges();
             }
+           
         }
-                // new vs old change
-                return change;
-        }
+               
     }
 }
+

@@ -23,9 +23,9 @@ namespace FurnitureOnline2
                 Console.WriteLine("Stad");
                 newSupplier.City = Console.ReadLine();
                 newSupplier.HiddenSupplier = false;
-                
+
                 supplierList.Add(newSupplier);
-                db.SaveChanges();     
+                db.SaveChanges();
             }
         }
 
@@ -42,18 +42,18 @@ namespace FurnitureOnline2
         }
 
 
-    public static void DeleteSupplier()
+        public static void DeleteSupplier()
         {
             ShowAllSupplier();
 
             using (var db = new Models.WebShopDBContext())
             {
                 var supplierList = db.Suppliers;
-                
+
                 Console.WriteLine("Vilken leverantör vill du ta bort?");
                 string input = Console.ReadLine();
 
-                var deleteSupplier =  supplierList.SingleOrDefault(p => p.Name == input);
+                var deleteSupplier = supplierList.SingleOrDefault(p => p.Name == input);
 
                 try
                 {
@@ -72,7 +72,7 @@ namespace FurnitureOnline2
         }
 
 
-        public static void UpdateSupplier(int id)
+        public static void UpdateSupplier()
         {
             ShowAllSupplier();
             using (var db = new Models.WebShopDBContext())
@@ -81,22 +81,41 @@ namespace FurnitureOnline2
                 string input = Console.ReadLine();
 
                 var supplierList = db.Suppliers;
-                var deleteSupplier = supplierList.SingleOrDefault(p => p.Name == input);
+                var updateSupplier = supplierList.SingleOrDefault(p => p.Name == input);
 
                 Console.WriteLine("Vad vill du ändra?\n1. Adress\n2. Namnn\n3.Gömd artikel");
-                int input = Convert.ToInt32(Console.ReadLine());
+                int input2 = Convert.ToInt32(Console.ReadLine());
 
-                if (input == 1)
+                if (input2 == 1)
                 {
-                    Console.WriteLine("Adress");
-                    Console.ReadLine();
-                    Console.WriteLine("Postnummer");
-                    Console.ReadLine();
-                    Console.WriteLine("Stad:");
-                    Console.ReadLine();
+                    Console.Write("Adress: ");
+                    updateSupplier.Adress = Console.ReadLine();
+                    Console.Write("Postnummer: ");
+                    updateSupplier.ZipCode = Console.ReadLine();
+                    Console.Write("Stad: ");
+                    updateSupplier.City = Console.ReadLine();
                 }
+                else if (input2 == 2)
+                {
+                    Console.Write("Nya namnet: ");
+                    updateSupplier.Name = Console.ReadLine();
+                }
+                else
+                {
+                    Console.Write("Vill du att artikeln ska vara gömd? Ja/Nej ");
+                    input = Console.ReadLine();
+                    if (input == "Ja")
+                    {
+                        updateSupplier.HiddenSupplier = true;
+                    }
+                    else
+                    {
+                        updateSupplier.HiddenSupplier = false;
+                    }
+                }
+                db.SaveChanges();
             }
-        }
 
+        }
     }
 }

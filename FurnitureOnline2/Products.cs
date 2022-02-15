@@ -103,19 +103,7 @@ namespace FurnitureOnline2
             }
         }
 
-        public static void SearchProduct()
-        {
-            using (var db = new WebShopDBContext())
-            {
-                var product = db.Products;
-                    
-            }
-            Console.WriteLine("Ange namnet på produkten du vill söka på");
-            string inputName = Console.ReadLine();
-
-
-
-        }
+        
         /// <summary>
         /// Adds a new available product
         /// </summary>
@@ -136,7 +124,7 @@ namespace FurnitureOnline2
             }
         }
         
-        public static Models.Product EnterNewProductDetails(Models.Product newProd)
+        public static Models.Product EnterNewProductDetails(Models.Product newProduct)
         {
             Console.Write("Skriv in artikelnumret: ");
             newProduct.ArticleNumber = Convert.ToInt32(Console.ReadLine());
@@ -173,6 +161,8 @@ namespace FurnitureOnline2
                 newProduct.HiddenArticle = true;
             else
                 newProduct.HiddenArticle = false;
+            
+            return newProduct;
         }
         public static string ModifyArticleDetails()
             {
@@ -180,12 +170,11 @@ namespace FurnitureOnline2
             // return old vs new change
 
             return change;
-            } 
-    }
-}
-// lägg till i metod som visas när man kallar på produktlista
-/*
- Console.WriteLine("Vilken produkt vill du klicka in på? Ange artikelnumret");
+            }
+
+        public static void AskForASpecificProduct()
+        {
+            Console.WriteLine("Vilken produkt vill du klicka in på? Ange artikelnumret");
             int input = Convert.ToInt32(Console.ReadLine());
             Console.WriteLine(Products.ShowAProduct(input));
             Console.WriteLine("Vill du lägga till den i varukorgen? Skriv isåfall 'Ja' ");
@@ -197,4 +186,25 @@ namespace FurnitureOnline2
                 var newProductInCart = new Models.ShoppingCart() { ProductsId = input, AmountOfItems = number };
                 ShoppingCart.AddProduct(newProductInCart);
             }
-*/
+        }
+
+        public static void AskForProductsInSpecificCategory()
+        {
+            Category.ShowAllCategories();
+            Console.WriteLine("I vilken kategori vill du se produkter i? Ange id.");
+            int input = Convert.ToInt32(Console.ReadLine());
+
+        }
+
+
+
+    }
+
+    
+}
+
+
+
+
+
+ 

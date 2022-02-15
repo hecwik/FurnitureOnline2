@@ -15,14 +15,16 @@ namespace FurnitureOnline2
             var OrderShippingMethod = Shipping.ChooseShipping();
 
             double? summa;
-            string orderSummary = ShoppingCart.ShowShoppingCart(out summa) +
+            double? summaExMoms;
+            string orderSummary = ShoppingCart.ShowShoppingCart(out summa, out summaExMoms) +
                 $"Frakt ({OrderShippingMethod.Name}) \t{OrderShippingMethod.Price:C}\n" +
-                $"Total att betala: {summa + OrderShippingMethod.Price:C}";
+                $"Total att betala: {summa + OrderShippingMethod.Price:C}\n" +
+                $"Exklsuive moms: {summaExMoms:C}";
             
             Console.WriteLine(orderSummary);
 
             var payment = Payment.ChoosePayment();
-
+            
             var newOrderHistory = new Models.OrderHistory() 
             { 
                 CustomerId = orderCustomer.Id, 

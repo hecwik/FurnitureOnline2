@@ -43,7 +43,7 @@ namespace FurnitureOnline2
                         break;
 
                     case 4:
-                        Console.WriteLine(ShoppingCart.ShowShoppingCart(out _));
+                        Console.WriteLine(ShoppingCart.ShowShoppingCart(out _, out _));
 
                         break;
 

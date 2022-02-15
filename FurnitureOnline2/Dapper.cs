@@ -159,6 +159,22 @@ namespace FurnitureOnline2
                 sql = $"Select Name, ArticleNumber FROM Products WHERE ArticleNumber = {result}";
             else
                 sql = $"Select Name, ArticleNumber FROM Products WHERE Name LIKE '%{productSearch}%'";
+
+            using (var connection = new SqlConnection(connString))
+            {
+                connection.Open();
+                var searchResult = connection.Query<Models.Product>(sql);
+                string returnString = $"{"Produktnamn",-20}{"Artikelnr.",-20}";
+                foreach (var item in searchResult)
+                {
+                    Console.WriteLine($"{item.Name, -20}{item.ArticleNumber, -20}");
+                }
+            }
+        }
+
+        public static void ShowProductsInSpecificCategory(int categoryId)
+        {
+
         }
     }
 }

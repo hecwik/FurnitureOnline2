@@ -14,5 +14,6 @@ namespace FurnitureOnline2.Models
         public string ProductName { get; set; }
         public double? UnitPrice { get; set; }
         public double? TotalAmount => Quantity * UnitPrice;
+        public double? Moms { get; set; }
     }
 }

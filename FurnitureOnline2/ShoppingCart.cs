@@ -39,7 +39,7 @@ namespace FurnitureOnline2
                 else Console.WriteLine("Du kan inte ta bort fler produkter än vad lagersaldot har");
             }
         }
-        public static string ShowShoppingCart(out double? summa)
+        public static string ShowShoppingCart(out double? summa, out double? summaExcludingVat)
         {
             summa = 0;
 
@@ -59,13 +59,15 @@ namespace FurnitureOnline2
 
                 string returnString = $"SAMMANSTÄLLNING\n\n{"ART.NR.",-10}{"PRODUKTNAMN",-25}{"PRIS",-14}{"ANTAL",-17}{"TOTAL KOSTNAD PER ARTIKEL",-30}\n";
                 summa = 0;
+                summaExcludingVat = 0;
 
                 foreach (var item in cartList)
                 {
                     returnString += $"{item.ArticleNumber,-10}{item.ProductName,-25}{item.UnitPrice,-14:C2}{item.Quantity,-17}{item.TotalAmount,-10:C2}\n";
                     summa += item.TotalAmount;
+                    summaExcludingVat += (item.TotalAmount * item.Moms);
                 }
-                returnString += $"\nTOTAL KOSTNAD FÖR ALLA ARTIKLAR: {summa:C2}";
+                returnString += $"\nTOTAL KOSTNAD FÖR ALLA ARTIKLAR: {summa:C2}\nEXKLUSIVE MOMS: {summaExcludingVat}";
                 return returnString;
             }
         }

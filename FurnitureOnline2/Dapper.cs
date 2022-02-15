@@ -49,24 +49,25 @@ namespace FurnitureOnline2
             var sql = @"Select * FROM OrderHistory oh
                         Join OrderDetail od ON od.OrderId = oh.Id
                         Join Shipping s ON oh.ShippingId = s.Id
-                        Join Payment pa ON oh.PaymentId = pa.id
-                        Join Products p ON od.ProductsId = p.ArticleNumber
                         Join Customer c ON oh.CustomerId = c.Id
-                        Where oh.id = " + orderId.ToString();
+                        Where oh.Id = " + orderId.ToString();
 
             using (var connection = new SqlConnection(connString))
             {
                 connection.Open();
                 var product = connection.Query<ShowSpecificOrderQuery>(sql).ToList();
 
-                string returnString = $"{product[0].OrderDate} har kund {product[0].FirstName} {product[0].LastName} har genomfört följande order:\n";
-                returnString = $"SAMMANSTÄLLNING\n\n{"ART.NR.",-10}{"PRODUKTNAMN",-25}{"PRIS",-14}{"ANTAL",-17}{"TOTAL KOSTNAD PER ARTIKEL",-30}\n";
+                string customerBought = $"{product[0].OrderDate} har kund {product[0].FirstName} {product[0].LastName} genomfört följande order:\n";
+                Console.WriteLine(customerBought);
+
+                string retString = "";
+                
                 foreach (var item in product)
                 {
-                    returnString += $"{ item.ArticleNumber,-10}{item.Name,-25}{item.ProductPrice,-14:C2}{item.Quantity,-17}{item.ProductPrice * item.Quantity,-17:C2}";
+                    returnString += $"{ item.ArticleNr,-10}{item.ArticleName,-25}{item.ProductPrice,-14:C2}{item.Quantity,-17}{item.ProductPrice * item.Quantity,-17:C2}";
                 }
 
-                returnString += $"\nFraktadress: {product[0].ShippingAdress}\nPostnummer: {product[0].ShippingZipCode}\nStad: {product[0].ShippingCity}\nFraktmetod: {product[0].ShippingMethod}\nBetalningssätt: {product[0].PaymentId}\nA";
+                returnString += $"\nFraktadress: {product[0].ShippingAdress}\nPostnummer: {product[0].ShippingZipCode}\nStad: {product[0].ShippingCity}\nFraktmetod: {product[0].ShippingMethod}\nBetalningssätt: {product[0].Payment}\nA";
                 return returnString;
             }
 

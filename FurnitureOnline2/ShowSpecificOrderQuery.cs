@@ -8,9 +8,9 @@ namespace FurnitureOnline2
 {
     class ShowSpecificOrderQuery
     {
-        public int OrderId { get; set; }
+        public int? OrderId { get; set; }
         public DateTime OrderDate { get; set; }
-        public float? TotalPrice { get; set; }
+        public float? TotalAmount { get; set; }
         public string ShippingAdress { get; set; }
         public string ShippingZipCode { get; set; }
         public string ShippingCity { get; set; }

@@ -49,8 +49,6 @@ namespace FurnitureOnline2
             var sql = @"Select * FROM OrderHistory oh
                         Join OrderDetail od ON od.OrderId = oh.Id
                         Join Shipping s ON oh.ShippingId = s.Id
-                        Join Payment pa ON oh.PaymentId = pa.Id
-                        Join Products p ON od.ProductsId = p.Id
                         Join Customer c ON oh.CustomerId = c.Id
                         Where oh.Id = " + orderId.ToString();
 

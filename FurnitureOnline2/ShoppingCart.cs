@@ -7,6 +7,10 @@ namespace FurnitureOnline2
 {
     class ShoppingCart
     {
+        /// <summary>
+        /// Adds product to a given shopping cart
+        /// </summary>
+        /// <param name="cart"></param>
         public static void AddProductToCart(Models.ShoppingCart cart)
         {
             using (var db = new WebShopDBContext())
@@ -24,6 +28,11 @@ namespace FurnitureOnline2
             }
         }
 
+        /// <summary>
+        /// Update the quantity of a shoppingcart by article number and number of item
+        /// </summary>
+        /// <param name="articleNumber"></param>
+        /// <param name="numberOfItem"></param>
         public static void UpdateQuantityInCart(int? articleNumber, int? numberOfItem)
         {
             using (var db = new WebShopDBContext())
@@ -39,6 +48,12 @@ namespace FurnitureOnline2
                 else Console.WriteLine("Du kan inte ta bort fler produkter än vad lagersaldot har");
             }
         }
+        /// <summary>
+        /// Show the shopping cart and its contents.
+        /// </summary>
+        /// <param name="summa"></param>
+        /// <param name="summaExcludingVat"></param>
+        /// <returns></returns>
         public static string ShowShoppingCart(out double? summa, out double? summaExcludingVat)
         {
             summa = 0;
@@ -73,7 +88,10 @@ namespace FurnitureOnline2
             }
         }
 
-        public static void ClearShoppingCart()
+        /// <summary>
+        /// Remove all items in shopping cart
+        /// </summary>
+        public static void ClearShoppingCart() //ska det vara en specifik cart eller hela tabellen shopping cart? / Hector
         {
             using (var db = new WebShopDBContext())
             {
@@ -88,6 +106,10 @@ namespace FurnitureOnline2
             }
         }
 
+        /// <summary>
+        /// Change or remove products in the a shopping cart based on products article number
+        /// </summary>
+        /// <param name="articleNr"></param>
         public static void ChangeOrRemoveProductsInCart(int articleNr)
         {
             Console.WriteLine($"Vill du ändra antalet produkter med artikelnummer: {articleNr} i kundvagnen eller ta bort en produkt? Välj mellan 1 och 2");
@@ -123,7 +145,8 @@ namespace FurnitureOnline2
 
 
                         }
-                        Console.WriteLine("Produkten finns inte i din kundvagn");
+                        Console.WriteLine("Produkten finns inte i din kundvagn. Tryck var som helst för att fortsätta...");
+                        Console.ReadLine();
 
                         break;
                 }

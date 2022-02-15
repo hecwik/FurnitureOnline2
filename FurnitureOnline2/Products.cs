@@ -216,12 +216,17 @@ namespace FurnitureOnline2
 
             return newProduct;
         }
-
+        /// <summary>
+        /// Modifies details of product fetched in overload
+        /// </summary>
+        /// <param name="product"></param>
         public static string ModifyProductDetails(Models.Product product)
         {
             string retString = "";
+
             using (var db = new WebShopDBContext())
             {
+                
                 bool isRunning = true;
                 
                 while (isRunning)
@@ -231,17 +236,17 @@ namespace FurnitureOnline2
                     Console.Write($"Vad vill du ändra hos {product.Name}?");
 
                     Console.Write($"[{selectNumber++}] Artikelnummer");
-                    Console.Write($"[{selectNumber++}] Namnet på produkten");
-                    Console.Write($"[{selectNumber++}] Kostnad för produkten");
-                    Console.Write($"[{selectNumber++}] Produktens kategori-ID");
-                    Console.Write($"[{selectNumber++}] Leverantörens ID");
-                    Console.Write($"[{selectNumber++}] Utvald produkt?");
-                    Console.Write($"[{selectNumber++}] Hur många varor som finns i lager");
-                    Console.Write($"[{selectNumber++}] Produktbeskrivning");
-                    Console.Write($"[{selectNumber++}] Färg på varan");
-                    Console.Write($"[{selectNumber++}] Varans material");
-                    Console.Write($"[{selectNumber++}] Ange moms");
-                    Console.Write($"[{selectNumber++}] Ska varan vara dold?");
+                    Console.Write($"[{selectNumber++}] \nNamnet på produkten");
+                    Console.Write($"[{selectNumber++}] \nKostnad för produkten");
+                    Console.Write($"[{selectNumber++}] \nProduktens kategori-ID");
+                    Console.Write($"[{selectNumber++}] \nLeverantörens ID");
+                    Console.Write($"[{selectNumber++}] \nUtvald produkt?");
+                    Console.Write($"[{selectNumber++}] \nHur många varor som finns i lager");
+                    Console.Write($"[{selectNumber++}] \nProduktbeskrivning");
+                    Console.Write($"[{selectNumber++}] \nFärg på varan");
+                    Console.Write($"[{selectNumber++}] \nVarans material");
+                    Console.Write($"[{selectNumber++}] \nAnge moms");
+                    Console.Write($"[{selectNumber++}] \nSka varan vara dold?");
 
                     string editInput = Console.ReadLine();
 
@@ -254,6 +259,7 @@ namespace FurnitureOnline2
                                 Console.Write("Skriv in det nya artikelnumret: ");
                                 product.ArticleNumber = Convert.ToInt32(Console.ReadLine());
                                 retString = $"Nytt artikelnummer: {product.ArticleNumber}";
+                                isRunning = KeepEditing();
                                 break;
 
                             case 2:
@@ -261,63 +267,73 @@ namespace FurnitureOnline2
                                 Console.Write($"Skriv in ett nytt namn på {oldName}: ");
                                 product.Name = Console.ReadLine();
                                 retString = $"Nytt namn: {product.Name}";
+                                isRunning = KeepEditing();
                                 break;
 
                             case 3:
                                 Console.Write("Ange nytt pris för produkten: ");
                                 product.CurrentPrice = Convert.ToDouble(Console.ReadLine());
                                 retString = $"Nytt pris: {product.ArticleNumber}";
+                                isRunning = KeepEditing();
                                 break;
 
                             case 4:
                                 Console.Write("Ange nytt kategori-ID för produkten: ");
                                 product.CategoryId = Convert.ToInt32(Console.ReadLine());
                                 retString = $"Nytt ID: {product.CategoryId}";
+                                isRunning = KeepEditing();
                                 break;
 
                             case 5:
                                 Console.WriteLine("Ange ny leverantörs-ID: ");
                                 product.SupplierId = Convert.ToInt32(Console.ReadLine());
                                 retString = $"Nytt ID: {product.SupplierId}";
+                                isRunning = KeepEditing();
                                 break;
 
                             case 6:
-                                Console.WriteLine("Ändra om produkten skall vara utvald: ");
+                                Console.WriteLine("Ändra om produkten skall vara utvald (Ja/Nej): ");
                                 string inputYesNo = Console.ReadLine();
-                                // throw out variable outChoice as true or false
-                                product.ChosenItem = InputYesOrNo(); // sets chosenitem depending on out variable from InputYesOrNo
+                                product.ChosenItem = InputYesOrNo();
                                 if (product.ChosenItem == true)
                                     Console.WriteLine($"{product.Name} är en utvald produkt.");
                                 else
                                     Console.WriteLine($"{product.Name} är inte en utvald produkt.");
+
+                                isRunning = KeepEditing();
                                 break;
 
                             case 7:
                                 Console.Write("Ange nytt antal varor i lagret: ");
                                 product.StockUnit = Convert.ToInt32(Console.ReadLine());
                                 retString = $"Nytt antal i lager: {product.StockUnit}";
+                                isRunning = KeepEditing();
                                 break;
 
                             case 8:
                                 Console.Write("Lägg till en ny beskrivning för produkten: ");
                                 product.Description = Console.ReadLine();
+                                isRunning = KeepEditing();
                                 break;
 
                             case 9:
                                 Console.Write("Ange en ny färg på varan: ");
                                 product.Color = Console.ReadLine();
+                                isRunning = KeepEditing();
                                 break;
 
                             case 10:
                                 Console.Write("Ange nytt material för varan: ");
                                 product.Material = Console.ReadLine();
+                                isRunning = KeepEditing();
                                 break;
 
                             case 11:
                                 Console.Write("Ange ny moms för varan: ");
                                 double? momsInput = Convert.ToDouble(Console.ReadLine());
                                 product.Moms = momsInput;
-                                retString = $"Ny moms för {product.Name}: {product.Moms}";
+                                retString = $"Ny moms för {product.Name}: {product.Moms}\n";
+                                isRunning = KeepEditing();
                                 break;
 
                             case 12:
@@ -327,12 +343,15 @@ namespace FurnitureOnline2
                                     Console.WriteLine($"{product.Name} är ändrad till en dold produkt.");
                                 else
                                     Console.WriteLine($"{product.Name} är ändrad till en ej dold produkt.");
+
+                                isRunning = KeepEditing();
                                 break;
                         }
                     }
                     else
                     {
-                        Console.WriteLine("Felaktig inmatning");
+                        Console.WriteLine("Felaktig inmatning. Tryck var som helst för att gå tillbaka...");
+                        Console.ReadLine();
                     }
                 }
             }
@@ -358,7 +377,7 @@ namespace FurnitureOnline2
                 ShoppingCart.AddProductToCart(newProductInCart);
             }
         }
-        // metod för att ta bort produkt
+        
         /// <summary>
         /// Removes a specific product based on name.
         /// </summary>
@@ -411,6 +430,15 @@ namespace FurnitureOnline2
             { return true; }
             else 
             { return false; }
+        }
+        public static bool KeepEditing()
+        {
+            Console.Write("\nVill du göra något annat? (Ja/Nej): ");
+            bool? keepShopping = InputYesOrNo();
+            if (keepShopping == true)
+                return true;
+            else
+                return false;
         }
     }
 }

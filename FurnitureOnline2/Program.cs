@@ -15,12 +15,8 @@ namespace FurnitureOnline2
             Console.WriteLine("Vill du handla? Ja/Nej");
             string userInput = Console.ReadLine().ToUpper();
 
-            if (userInput.ToUpper() == "JA")
-            {
-                MenuSelection();
-            }
-            else
-                AdminMenu();
+            if (userInput.ToUpper() == "JA") MenuSelection();
+            else AdminMenu();
 
                 Orderhistory.CheckOut();
         }
@@ -64,7 +60,8 @@ namespace FurnitureOnline2
 
                     case 5:
                         Console.WriteLine(ShoppingCart.ShowShoppingCart(out _, out _));
-                        Console.WriteLine("Vill du gå till kassan?");
+                        Console.WriteLine("Vill du gå till kassan? (Ja/Nej)");
+                        
 
                         // check out method.
                         Console.WriteLine();
@@ -73,6 +70,7 @@ namespace FurnitureOnline2
 
                     case 6:
                         Console.WriteLine("Tack för besöket, tipsa gärna dina vänner och familj!");
+                        Environment.Exit(0);
                         break;
 
                     default:
@@ -110,7 +108,8 @@ namespace FurnitureOnline2
                     case 1:
                         Console.WriteLine("Ange kund-Id du vill se ordern på");
                         int customer = Convert.ToInt32(Console.ReadLine());
-                        Dapper.OrderList(customer);
+                        Console.WriteLine(Dapper.OrderList(customer));
+                        Console.ReadLine();
                         break;
 
                     case 2:
@@ -185,6 +184,7 @@ namespace FurnitureOnline2
 
                     default:
                         Console.WriteLine("Felaktig inmatning, det måste vara enligt menyn");
+                        Console.ReadLine();
                         break;
                 }
             }

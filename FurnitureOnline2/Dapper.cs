@@ -23,7 +23,7 @@ namespace FurnitureOnline2
             string returnString = "";
             var sql = @"Select Id, OrderDate, TotalPrice  
                         FROM OrderHistory
-                        Where CustomerId ";
+                        WHERE CustomerId";
 
             if (customer != 0)  sql += "= " + customer.ToString();
             if (customer == 0) sql += " between 1 AND 10000 ";
@@ -101,6 +101,10 @@ namespace FurnitureOnline2
             }
         }
 
+        /// <summary>
+        /// Shows the most popular product category
+        /// </summary>
+        /// <returns></returns>
         public static string MostPopularCategory()
         {
             var sql = @"Select p.Name, SUM(Quantity), SUM(Quantity * Price) 
@@ -205,7 +209,7 @@ namespace FurnitureOnline2
         }
 
         /// <summary>
-        /// Search for a product in the database
+        /// Search for a product in the products table based on article number or product name
         /// </summary>/
         public static void SearchForAProduct()
         {
@@ -232,4 +236,4 @@ namespace FurnitureOnline2
     }
 }
 // mer statistik grejer?
-// TESTA ALLT
+// TESTA ALLT!

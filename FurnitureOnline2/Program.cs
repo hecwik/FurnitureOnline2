@@ -21,8 +21,6 @@ namespace FurnitureOnline2
             }
             else
                 AdminMenu();
-
-                Orderhistory.CheckOut();
         }
         public static void MenuSelection()
         {
@@ -36,8 +34,7 @@ namespace FurnitureOnline2
                     "[3] Välj enligt kategori\n" +
                     "[4] Se kundvagn\n" +
                     "[5] Gå till kassan\n" +
-                    "[6] Exit"
-                    );
+                    "[6] Exit");
 
                 int input = Convert.ToInt32(Console.ReadLine());
 
@@ -88,7 +85,7 @@ namespace FurnitureOnline2
 
             while (isRunning)
             {
-                Console.WriteLine("Välj enligt menyn:");
+                Console.WriteLine("Välj enligt menyn:\n");
                 Console.WriteLine("[1] Visa specifik order baserad på kund-ID\n" +
                     "[2] Visa order baserat på order-ID\n" +
                     "[3] Visa mest sålda produkter\n" +
@@ -102,7 +99,11 @@ namespace FurnitureOnline2
                     "[11] Lägg till kategori\n" +
                     "[12] Ändra på en kategori\n" +
                     "[13] Ta bort en kategori\n" +
-                    "[14] Exit");
+                    "[14] Lägg till en leverantör\n" +
+                    "[15] Ändra detaljer hos leverantör\n" +
+                    "[16] Ta bort en leverantör\n" +
+                    "[17] Exit ");
+
                 int input = Convert.ToInt32(Console.ReadLine());
 
                 switch (input)
@@ -110,7 +111,7 @@ namespace FurnitureOnline2
                     case 1:
                         Console.WriteLine("Ange kund-Id du vill se ordern på");
                         int customer = Convert.ToInt32(Console.ReadLine());
-                        Dapper.OrderList(customer);
+                        Console.WriteLine(Dapper.OrderList(customer));
                         break;
 
                     case 2:
@@ -181,6 +182,20 @@ namespace FurnitureOnline2
                         break;
 
                     case 14:
+                        Supplier.AddSupplier();
+                        break;
+
+                    case 15:
+                        Supplier.ShowAllSupplier();
+                        Supplier.UpdateSupplier();
+                        break;
+
+                    case 16:
+                        Supplier.ShowAllSupplier();
+                        Supplier.DeleteSupplier();
+                        break;
+
+                    case 17:
                         break;
 
                     default:

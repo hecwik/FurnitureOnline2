@@ -40,8 +40,6 @@ namespace FurnitureOnline2
                 }
             }
         }
-
-
         public static void DeleteSupplier()
         {
             ShowAllSupplier();
@@ -70,8 +68,6 @@ namespace FurnitureOnline2
                 db.SaveChanges();
             }
         }
-
-
         public static void UpdateSupplier()
         {
             ShowAllSupplier();

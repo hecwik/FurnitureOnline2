@@ -10,7 +10,7 @@ namespace FurnitureOnline2
     {
         public int? OrderId { get; set; }
         public DateTime OrderDate { get; set; }
-        public float? TotalAmount { get; set; }
+        public float? TotalPrice { get; set; }
         public string ShippingAdress { get; set; }
         public string ShippingZipCode { get; set; }
         public string ShippingCity { get; set; }
@@ -18,7 +18,7 @@ namespace FurnitureOnline2
         public string Name { get; set; }
         public int? Quantity { get; set; }
         public float? Price { get; set; }
-        public string ShippingMethod { get; set; }
+        public string ShippingId { get; set; }
         public int PaymentId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }

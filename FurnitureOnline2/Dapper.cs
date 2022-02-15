@@ -88,17 +88,18 @@ namespace FurnitureOnline2
                         OrderDetail od
                         Join OrderHistory oh ON od.OrderId = oh.Id
                         Join Products p ON od.ProductsId = p.Id
-                        Group by p.Name";
+                        Group by p.Name
+                        Order by SUM(Quantity) DESC";
 
             using (var connection = new SqlConnection(connString))
             {
                 connection.Open();
                 var product = connection.Query<(string, int, int)>(sql).ToList();
-                string returnString = $"Mest sålda produkter\n {"ProduktNamn: ",-20} {"Antal produkter: ",-10} {"Total pris: "}\n ";
+                string returnString = $"Mest sålda produkter\n{"ProduktNamn: ",-40} {"Antal produkter: ",-15} {"Total pris: "}\n";
 
                 foreach (var item in product)
                 {
-                    returnString += $"{item.Item1,-20}\n{item.Item2,-10}{item.Item3,-10}\n";
+                    returnString += $"{item.Item1,-45}{item.Item2,-15}{item.Item3,-15}\n";
                 }
                 
                 return returnString;

@@ -66,10 +66,10 @@ namespace FurnitureOnline2
                 
                 foreach (var item in product)
                 {
-                    retString += $"{ item.ArticleNumber,-10}{item.Name,-25}{item.Price,-14:C2}{item.Quantity,-17}{item.Price * item.Quantity,-17:C2}\n";
+                    retString += $"{ item.ArticleNumber,-10}{item.Name,-25}{item.Price,-14:C2}{item.Quantity,-17}{item.TotalPrice,-17:C2}\n";
                 }
 
-                string orderDetail = $"\nFraktadress: {product[0].ShippingAdress}\nPostnummer: {product[0].ShippingZipCode}\nStad: {product[0].ShippingCity}\nFraktmetod: {product[0].ShippingMethod}\nBetalningssätt: {product[0].PaymentId}\n";
+                string orderDetail = $"\nFraktadress: {product[0].ShippingAdress}\nPostnummer: {product[0].ShippingZipCode}\nStad: {product[0].ShippingCity}\nFraktmetod: {product[0].ShippingId}\nBetalningssätt: {product[0].PaymentId}\n";
                 Console.WriteLine(orderDetail);
                 Console.WriteLine($"{"Artikelnummer",-20}{"Namn",-25}{"Pris",-14}{"Antal",-17}{"Total kostnad",-17}");
                 return retString;

@@ -31,7 +31,8 @@ namespace FurnitureOnline2
             while (isRunning)
             {
                 Console.WriteLine("Välj enligt menyn:");
-                Console.WriteLine("[1] Sök på produkt\n" +
+                Console.WriteLine(
+                    "[1] Sök på produkt\n" +
                     "[2] Se produktlista\n" +
                     "[3] Välj enligt kategori\n" +
                     "[4] Se kundvagn\n" +
@@ -52,17 +53,20 @@ namespace FurnitureOnline2
                         Console.Clear();
                         Console.WriteLine(Products.ShowAllProducts());
                         Products.AskForASpecificProduct();
+                        Console.ReadLine();
                         break;
 
                     case 3:
                         Console.Clear();
                         Console.WriteLine(Category.ChooseByCategory());
                         Products.AskForASpecificProduct();
+                        Console.ReadLine();
                         break;
 
                     case 4:
                         Console.Clear();
                         Console.WriteLine(ShoppingCart.ShowShoppingCart(out _, out _));
+                        Console.ReadLine();
                         break;
 
                     case 5:

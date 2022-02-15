@@ -48,9 +48,9 @@ namespace FurnitureOnline2
         {
             var sql = @"Select * FROM OrderHistory oh
                         Join OrderDetail od ON od.OrderId = oh.Id
-                        Join Products p ON od.ProductsId = p.ArticleNumber
-                        Join Payment pa ON oh.PaymentId = pa.id
                         Join Shipping s ON oh.ShippingId = s.Id
+                        Join Payment pa ON oh.PaymentId = pa.id
+                        Join Products p ON od.ProductsId = p.ArticleNumber
                         Join Customer c ON oh.CustomerId = c.Id
                         Where oh.id = " + orderId.ToString();
 
@@ -63,10 +63,10 @@ namespace FurnitureOnline2
                 returnString = $"SAMMANSTÄLLNING\n\n{"ART.NR.",-10}{"PRODUKTNAMN",-25}{"PRIS",-14}{"ANTAL",-17}{"TOTAL KOSTNAD PER ARTIKEL",-30}\n";
                 foreach (var item in product)
                 {
-                    returnString += $"{ item.ArticleNr,-10}{item.ArticleName,-25}{item.ProductPrice,-14:C2}{item.Quantity,-17}{item.ProductPrice * item.Quantity,-17:C2}";
+                    returnString += $"{ item.ArticleNumber,-10}{item.Name,-25}{item.ProductPrice,-14:C2}{item.Quantity,-17}{item.ProductPrice * item.Quantity,-17:C2}";
                 }
 
-                returnString += $"\nFraktadress: {product[0].ShippingAdress}\nPostnummer: {product[0].ShippingZipCode}\nStad: {product[0].ShippingCity}\nFraktmetod: {product[0].ShippingMethod}\nBetalningssätt: {product[0].Payment}\nA";
+                returnString += $"\nFraktadress: {product[0].ShippingAdress}\nPostnummer: {product[0].ShippingZipCode}\nStad: {product[0].ShippingCity}\nFraktmetod: {product[0].ShippingMethod}\nBetalningssätt: {product[0].PaymentId}\nA";
                 return returnString;
             }
 

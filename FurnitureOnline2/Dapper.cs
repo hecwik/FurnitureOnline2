@@ -117,26 +117,27 @@ namespace FurnitureOnline2
         /// <returns></returns>
         public static string MostPopularCategory()
         {
-            var sql = @"Select p.Name, SUM(Quantity), SUM(Quantity * Price) 
+            var sql = @"Select c.Name, SUM(Quantity), SUM(Quantity * Price) 
                         FROM
                         OrderDetail od
                         Join OrderHistory oh ON od.OrderId = oh.Id
                         Join Products p ON od.ProductsId = p.Id
-                        Group by p.Name
+						Join Category c ON p.CategoryId = c.Id
+                        Group by c.Name
                         Order by count(*) DESC";
 
             using (var connection = new SqlConnection(connString))
             {
                 connection.Open();
-                var product = connection.Query<(string, int)>(sql).ToList();
+                var product = connection.Query<(string, int, int)>(sql).ToList();
 
 
-                string returnString = $"{"Kategori:", -15}{"Antal ordrar", -10}";
+                string returnString = $"{"Kategori:", -15}{"Antal ordrar", -20}{"Totalt pris:"}\n";
                 string retString = "";                
                 Console.WriteLine(returnString);
                 foreach (var item in product)
                 {
-                    retString += $"{item.Item1,-15}{item.Item2,-10}";
+                    retString += $"{item.Item1,-15}{item.Item2,-20}{item.Item3, -10}\n";
                 }
                 return retString;
             }
@@ -150,19 +151,7 @@ namespace FurnitureOnline2
                 When DATEDIFF(YEAR, CAST(LEFT(IdNumber, 8) AS DATE), GETDATE()) between 15 AND 25 Then 'Ålder 15-25'
                 When DATEDIFF(YEAR, CAST(LEFT(IdNumber, 8) AS DATE), GETDATE()) between 26 AND 50 Then 'Ålder 26-50'
                 When DATEDIFF(YEAR, CAST(LEFT(IdNumber, 8) AS DATE), GETDATE()) > 50 Then 'Ålder 50+'
-                End, COUNT(*)
- 
-                FROM
-                Customer c
-                Join OrderHistory oh ON oh.CustomerId = c.Id
-                Group by (Case
-                When DATEDIFF(YEAR, CAST(LEFT(IdNumber, 8) AS DATE), GETDATE()) between 15 AND 25 Then 'Ålder 15-25'
-                When DATEDIFF(YEAR, CAST(LSELECT
-                Case
-                When DATEDIFF(YEAR, CAST(LEFT(IdNumber, 8) AS DATE), GETDATE()) between 15 AND 25 Then 'Ålder 15-25'
-                When DATEDIFF(YEAR, CAST(LEFT(IdNumber, 8) AS DATE), GETDATE()) between 26 AND 50 Then 'Ålder 26-50'
-                When DATEDIFF(YEAR, CAST(LEFT(IdNumber, 8) AS DATE), GETDATE()) > 50 Then 'Ålder 50+'
-                End, COUNT(*), sum(oh.TotalPrice)
+                End, COUNT(*), SUM(oh.TotalPrice)
  
                 FROM
                 Customer c
@@ -170,8 +159,6 @@ namespace FurnitureOnline2
                 Group by (Case
                 When DATEDIFF(YEAR, CAST(LEFT(IdNumber, 8) AS DATE), GETDATE()) between 15 AND 25 Then 'Ålder 15-25'
                 When DATEDIFF(YEAR, CAST(LEFT(IdNumber, 8) AS DATE), GETDATE()) between 26 AND 50 Then 'Ålder 26-50'
-                When DATEDIFF(YEAR, CAST(LEFT(IdNumber, 8) AS DATE), GETDATE()) > 50 Then 'Ålder 50+'
-                End)EFT(IdNumber, 8) AS DATE), GETDATE()) between 26 AND 50 Then 'Ålder 26-50'
                 When DATEDIFF(YEAR, CAST(LEFT(IdNumber, 8) AS DATE), GETDATE()) > 50 Then 'Ålder 50+'
                 End)";
               using (var connection = new SqlConnection(connString))
@@ -179,10 +166,10 @@ namespace FurnitureOnline2
                 connection.Open();
                 var product = connection.Query<(string, int, double)>(sql).ToList();
 
-                Console.WriteLine($"{"Ålder:", 10}{"Antal ordrar:"}{"Total pris:"}");
+                Console.WriteLine($"{"Ålder:", -15}{"Antal ordrar:",-20}{"Total pris:"}\n");
                 foreach (var item in product)
                 {
-                    Console.WriteLine($"{item.Item1,-10}{item.Item2,-10}{item.Item2}");
+                    Console.WriteLine($"{item.Item1,-15}{item.Item2,-20}{item.Item3}");
                 }
             }
         }
@@ -197,16 +184,16 @@ namespace FurnitureOnline2
                         Join OrderHistory oh ON od.OrderId = oh.Id
                         Group by ShippingCity";
 
-            var returnstring = $"{"Stad:",-20}{"Antal ordrar:",-10}";
+            var returnstring = $"{"Stad:",-20}{"Antal ordrar:",-10}\n";
             using (var connection = new SqlConnection(connString))
             {
                 connection.Open();
-                var statisticList = connection.Query<Models.StatisticalQuery>(sql);
+                var statisticList = connection.Query<(string, int)>(sql);
 
 
                 foreach (var item in statisticList)
                 {
-                    returnstring += $"{item.City,-20}{item.Quantity,-10}";
+                    returnstring += $"{item.Item1,-20}{item.Item2,-10}\n";
                 }
             }
             return returnstring;

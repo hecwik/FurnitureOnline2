@@ -159,17 +159,19 @@ namespace FurnitureOnline2
                     case 6:
                         Console.Clear();
                         Dapper.NumberOfOrdersGroupedByAge();
+                        Console.ReadLine();
                         break;
 
                     case 7:
                         Console.Clear();
-                        Category.ShowAllCategories();
-                        Dapper.MostPopularCategory();
+                        Console.WriteLine(Dapper.MostPopularCategory());
+                        Console.ReadLine();
                         break;
 
                     case 8:
                         Console.Clear();
                         Products.AddProduct();
+
                         break;
 
                     case 9:
@@ -226,7 +228,6 @@ namespace FurnitureOnline2
 
                     case 16:
                         Console.Clear();
-                        Supplier.ShowAllSupplier();
                         Supplier.DeleteSupplier();
                         break;
 

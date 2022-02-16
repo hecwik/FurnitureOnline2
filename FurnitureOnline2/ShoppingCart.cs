@@ -82,7 +82,7 @@ namespace FurnitureOnline2
                     summa += item.TotalAmount;
                     summaExcludingVat += item.TotalAmount * item.Moms;
                 }
-                returnString += $"\nTOTAL KOSTNAD FÖR ALLA ARTIKLAR: {summa:C2}\nEXKLUSIVE MOMS: {summa:C2J}";
+                returnString += $"\nTOTAL KOSTNAD FÖR ALLA ARTIKLAR: {summa:C2}\nEXKLUSIVE MOMS: {summa:C2}";
                 return returnString;
             }
         }

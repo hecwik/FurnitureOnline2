@@ -143,7 +143,7 @@ namespace FurnitureOnline2
         }
 
 
-        /*public static string NumberOfOrdersGroupedByAge()
+        public static void NumberOfOrdersGroupedByAge()
         {
             var sql = @"SELECT
                 Case
@@ -157,20 +157,35 @@ namespace FurnitureOnline2
                 Join OrderHistory oh ON oh.CustomerId = c.Id
                 Group by (Case
                 When DATEDIFF(YEAR, CAST(LEFT(IdNumber, 8) AS DATE), GETDATE()) between 15 AND 25 Then 'Ålder 15-25'
+                When DATEDIFF(YEAR, CAST(LSELECT
+                Case
+                When DATEDIFF(YEAR, CAST(LEFT(IdNumber, 8) AS DATE), GETDATE()) between 15 AND 25 Then 'Ålder 15-25'
                 When DATEDIFF(YEAR, CAST(LEFT(IdNumber, 8) AS DATE), GETDATE()) between 26 AND 50 Then 'Ålder 26-50'
+                When DATEDIFF(YEAR, CAST(LEFT(IdNumber, 8) AS DATE), GETDATE()) > 50 Then 'Ålder 50+'
+                End, COUNT(*), sum(oh.TotalPrice)
+ 
+                FROM
+                Customer c
+                Join OrderHistory oh ON oh.CustomerId = c.Id
+                Group by (Case
+                When DATEDIFF(YEAR, CAST(LEFT(IdNumber, 8) AS DATE), GETDATE()) between 15 AND 25 Then 'Ålder 15-25'
+                When DATEDIFF(YEAR, CAST(LEFT(IdNumber, 8) AS DATE), GETDATE()) between 26 AND 50 Then 'Ålder 26-50'
+                When DATEDIFF(YEAR, CAST(LEFT(IdNumber, 8) AS DATE), GETDATE()) > 50 Then 'Ålder 50+'
+                End)EFT(IdNumber, 8) AS DATE), GETDATE()) between 26 AND 50 Then 'Ålder 26-50'
                 When DATEDIFF(YEAR, CAST(LEFT(IdNumber, 8) AS DATE), GETDATE()) > 50 Then 'Ålder 50+'
                 End)";
               using (var connection = new SqlConnection(connString))
             {
                 connection.Open();
-                var product = connection.Query<(string, int)>(sql).ToList();
+                var product = connection.Query<(string, int, double)>(sql).ToList();
 
+                Console.WriteLine($"{"Ålder:", 10}{"Antal ordrar:"}{"Total pris:"}");
                 foreach (var item in product)
                 {
-                    Console.WriteLine($"{item.Item1,-10}{item.Item2,-10}");
+                    Console.WriteLine($"{item.Item1,-10}{item.Item2,-10}{item.Item2}");
                 }
             }
-        }*/
+        }
 
         /// <summary>
         /// Shows cities in order of most orders made in descending order
@@ -202,17 +217,17 @@ namespace FurnitureOnline2
         /// <returns></returns>
         public static string MemberList()  
        {
-            var sql = @"Select Id, FirstName, LastName, UserName FROM Customer Where Membership = 1";
-            var returnString = "Medlemslista:";
+            var sql = @"Select Id, FirstName, LastName, Adress, ZipCode, City, UserName, Email, IdNumber FROM Customer Where Membership = 1";
+            var returnString = "Medlemslista:\n";
             using (var connection = new SqlConnection(connString))
             {
                 connection.Open();
                 var memberList = connection.Query<Models.Customer>(sql);
-                returnString += $"{"Kundnr:",-10}{"Namn:",-30}{"Adress:",-15}{"Postnummer:",-8}{"Stad:",-10}{"Username:",-15}{"Epost:",-15}{"Personnummer:",-20}\n";
+                returnString += $"{"Kundnr:",-10}{"Namn:",-30}{"Adress:",-20}{"Postnummer:",-18}{"Stad:",-10}{"Username:",-15}{"Epost:",-30}{"Personnummer:",-20}\n";
 
                 foreach (var item in memberList)
                 {
-                    returnString += $"{item.Id,-10}{item.FirstName + " " + item.LastName,-30}{item.Adress,-15}{item.ZipCode,-8}{item.City,-10}{item.UserName,-15}{item.Email,-15}{item.IdNumber,-20}\n";
+                    returnString += $"{item.Id,-10}{item.FirstName + " " + item.LastName,-30}{item.Adress,-20}{item.ZipCode,-18}{item.City,-10}{item.UserName,-15}{item.Email,-30}{item.IdNumber,-20}\n";
                 }
             }
             return returnString;

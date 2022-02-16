@@ -153,11 +153,12 @@ namespace FurnitureOnline2
                     case 5:
                         Console.Clear();
                         Console.WriteLine(Dapper.MemberList());
+                        Console.ReadLine();
                         break;
 
                     case 6:
                         Console.Clear();
-                        /*Dapper.NumberOfOrdersGroupedByAge();*/
+                        Dapper.NumberOfOrdersGroupedByAge();
                         break;
 
                     case 7:

@@ -45,7 +45,7 @@ namespace FurnitureOnline2
                 {
                     db.SaveChanges();
                 }
-                else Console.WriteLine("Du kan inte ta bort fler produkter än vad lagersaldot har");
+                else Console.WriteLine("Du kan inte lägga till fler produkter än vad lagersaldot har");
             }
         }
         /// <summary>
@@ -82,7 +82,7 @@ namespace FurnitureOnline2
                     summa += item.TotalAmount;
                     summaExcludingVat += item.TotalAmount * item.Moms;
                 }
-                returnString += $"\nTOTAL KOSTNAD FÖR ALLA ARTIKLAR: {summa:C2}\nEXKLUSIVE MOMS: {summa}";
+                returnString += $"\nTOTAL KOSTNAD FÖR ALLA ARTIKLAR: {summa:C2}\nEXKLUSIVE MOMS: {summa:C2}";
                 return returnString;
             }
         }

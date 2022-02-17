@@ -256,10 +256,10 @@ namespace FurnitureOnline2
             {
                 connection.Open();
                 var searchResult = connection.Query<Models.Product>(sql);
-                string returnString = $"{"Produktnamn",-20}{"Artikelnr.",-20}";
+                string returnString = $"{"Produktnamn",-40}{"Artikelnr.",-20}";
                 foreach (var item in searchResult)
                 {
-                    Console.WriteLine($"{item.Name, -20}{item.ArticleNumber, -20}");
+                    Console.WriteLine($"{item.Name,-40}{item.ArticleNumber,-20}");
                 }
             }
         }

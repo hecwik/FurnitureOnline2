@@ -67,6 +67,9 @@ namespace FurnitureOnline2
                     case 4:
                         Console.Clear();
                         Console.WriteLine(ShoppingCart.ShowShoppingCart(out _, out _));
+                        Console.WriteLine("\nVill du ändra i varukorgen? (Ja/Nej)");
+                        string inputChange = Console.ReadLine();
+                        if (inputChange == "Ja") ShoppingCart.ChangeOrRemoveProductsInCart();
                         Console.ReadLine();
                         break;
 

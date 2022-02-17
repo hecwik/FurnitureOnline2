@@ -38,64 +38,68 @@ namespace FurnitureOnline2
                     "[3] Välj enligt kategori\n" +
                     "[4] Se kundvagn\n" +
                     "[5] Gå till kassan\n" +
-                    "[6] Exit");
+                    "[6] Exit"
+                    );
 
-                int input = Convert.ToInt32(Console.ReadLine());
-
-                switch (input)
+                if (int.TryParse(Console.ReadLine(), out int choice))
                 {
-                    case 1:
-                        Console.Clear();
-                        Dapper.SearchForAProduct();
-                        Products.AskForASpecificProduct();
-                        break;
+                    switch (choice)
+                    {
+                        case 1:
+                            Console.Clear();
+                            Dapper.SearchForAProduct();
+                            Products.AskForASpecificProduct();
+                            break;
 
-                    case 2:
-                        Console.Clear();
-                        Console.WriteLine(Products.ShowAllProducts());
-                        Products.AskForASpecificProduct();
-                        Console.ReadLine();
-                        break;
+                        case 2:
+                            Console.Clear();
+                            Console.WriteLine(Products.ShowAllProducts());
+                            Products.AskForASpecificProduct();
+                            Console.ReadLine();
+                            break;
 
-                    case 3:
-                        Console.Clear();
-                        Console.WriteLine(Category.ChooseByCategory());
-                        Products.AskForASpecificProduct();
-                        Console.ReadLine();
-                        break;
+                        case 3:
+                            Console.Clear();
+                            Console.WriteLine(Category.ChooseByCategory());
+                            Products.AskForASpecificProduct();
+                            Console.ReadLine();
+                            break;
 
-                    case 4:
-                        Console.Clear();
-                        Console.WriteLine(ShoppingCart.ShowShoppingCart(out _, out _));
-                        Console.ReadLine();
-                        break;
+                        case 4:
+                            Console.Clear();
+                            Console.WriteLine(ShoppingCart.ShowShoppingCart(out _, out _));
+                            Console.ReadLine();
+                            break;
 
-                    case 5:
-                        Console.Clear();
-                        Console.WriteLine(ShoppingCart.ShowShoppingCart(out _, out _));
-                        Console.WriteLine("Vill du gå till kassan? (Ja/Nej)");
-                        
-
-                        Orderhistory.CheckOut();
-                        Console.WriteLine();
-                        break;
+                        case 5:
+                            Console.Clear();
+                            Console.WriteLine(ShoppingCart.ShowShoppingCart(out _, out _));
+                            Console.WriteLine("Vill du gå till kassan? (Ja/Nej)");
 
 
-                    case 6:
-                        Console.WriteLine("Tack för besöket, tipsa gärna dina vänner och familj!");
-                        Environment.Exit(0);
-                        break;
+                            Orderhistory.CheckOut();
+                            break;
 
-                    default:
-                        Console.WriteLine("Felaktig inmatning, måste vara enligt menyn");
-                        break;
+
+                        case 6:
+                            Console.WriteLine("Tack för besöket, tipsa gärna dina vänner och familj!");
+                            Environment.Exit(0);
+                            break;
+
+                        default:
+                            Console.WriteLine("Felaktig inmatning, måste vara enligt menyn");
+                            break;
+                    }
+                }
+                else 
+                { 
+                    Console.WriteLine($"Felaktig inmatning '{choice}', försök igen."); Console.ReadLine(); 
                 }
             }
         }
 
         public static void AdminMenu()
         {
-            Console.WriteLine("Hello World");
             bool isRunning = true;
 
             while (isRunning)

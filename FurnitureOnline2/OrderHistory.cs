@@ -12,14 +12,14 @@ namespace FurnitureOnline2
         public static void CheckOut()
         {
             var orderCustomer = Customers.DetermineMember();
-            var OrderShippingMethod = Shipping.ChooseShipping();
+            var orderShippingMethod = Shipping.ChooseShipping();
 
             double? summa;
             double? summaExMoms;
             string orderSummary = ShoppingCart.ShowShoppingCart(out summa, out summaExMoms) +
-                $"Frakt ({OrderShippingMethod.Name}) \t{OrderShippingMethod.Price:C}\n" +
-                $"Total att betala: {summa + OrderShippingMethod.Price:C}\n" +
-                $"Exklsuive moms: {summaExMoms:C}";
+                $"Frakt ({orderShippingMethod.Name}) \t{orderShippingMethod.Price:C}\n" +
+                $"Total att betala: {summa + orderShippingMethod.Price:C}\n" +
+                $"Exklusive moms: {summaExMoms:C}";
             
             Console.WriteLine(orderSummary);
 
@@ -29,12 +29,12 @@ namespace FurnitureOnline2
             { 
                 CustomerId = orderCustomer.Id, 
                 OrderDate = DateTime.Now, 
-                ShippingId = OrderShippingMethod.Id, 
+                ShippingId = orderShippingMethod.Id, 
                 PaymentId = payment.Id, 
                 ShippingAdress = orderCustomer.Adress, 
                 ShippingZipCode = orderCustomer.ZipCode, 
                 ShippingCity = orderCustomer.City, 
-                TotalPrice = summa + OrderShippingMethod.Price };
+                TotalPrice = summa + orderShippingMethod.Price };
 
             using (var dbOrderHistory = new Models.WebShopDBContext())
             {
@@ -43,7 +43,7 @@ namespace FurnitureOnline2
                 dbOrderHistory.SaveChanges();
 
                 var cartlist = from
-                                  cart in dbOrderHistory.ShoppingCarts
+                               cart in dbOrderHistory.ShoppingCarts
                                join
                                product in dbOrderHistory.Products on cart.ProductsId equals product.ArticleNumber
                                select new ShoppingCartQuery 
@@ -74,6 +74,7 @@ namespace FurnitureOnline2
                 }
 
                 Console.WriteLine("Orderbekräftelse:\n" + orderSummary);
+                Console.ReadLine();
 
             }
             ShoppingCart.ClearShoppingCart();

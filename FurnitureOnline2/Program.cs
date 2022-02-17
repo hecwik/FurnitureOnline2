@@ -95,6 +95,7 @@ namespace FurnitureOnline2
 
         public static void AdminMenu()
         {
+            Console.WriteLine("Hello World");
             bool isRunning = true;
 
             while (isRunning)

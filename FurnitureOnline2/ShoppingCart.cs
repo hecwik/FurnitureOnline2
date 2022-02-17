@@ -110,14 +110,18 @@ namespace FurnitureOnline2
         /// Change or remove products in the a shopping cart based on products article number
         /// </summary>
         /// <param name="articleNr"></param>
-        public static void ChangeOrRemoveProductsInCart(int articleNr)
+        public static void ChangeOrRemoveProductsInCart()
         {
+            Console.WriteLine("Vilken artikel vill ändra?");
+            int articleNr = Convert.ToInt32(Console.ReadLine());
+
+
             Console.WriteLine($"Vill du ändra antalet produkter med artikelnummer: {articleNr} i kundvagnen eller ta bort en produkt? Välj mellan 1 och 2");
             int input = Convert.ToInt32(Console.ReadLine());
 
             using (var db = new WebShopDBContext())
-            {
-                var cartTable = db.ShoppingCarts;
+           {
+              var cartTable = db.ShoppingCarts;
 
                 switch (input)
                 {
@@ -129,25 +133,26 @@ namespace FurnitureOnline2
                         break;
 
                     case 2:
-
-                        Console.WriteLine("Ange artikelnr. på den produkt du vill ta bort?");
-                        int articleToRemove = Convert.ToInt32(Console.ReadLine());
-
+                  
+                                                bool find = false;
                         foreach (var item in cartTable)
                         {
-                            if (item.ProductsId == articleToRemove)
+                            if (item.ProductsId == articleNr)
                             {
                                 cartTable.Remove(item);
+                                find = true;
                             }
 
-                            db.SaveChanges();
-
+                           
 
                         }
-                        Console.WriteLine("Produkten finns inte i din kundvagn. Tryck var som helst för att fortsätta...");
-                        Console.ReadLine();
-
-                        break;
+                        if (!find)
+                        {
+                            Console.WriteLine("Produkten finns inte i din kundvagn. Tryck var som helst för att fortsätta...");
+                            Console.ReadLine();
+                        }
+                    db.SaveChanges();
+                    break;
                 }
             }
         }

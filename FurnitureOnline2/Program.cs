@@ -65,11 +65,14 @@ namespace FurnitureOnline2
                             Console.ReadLine();
                             break;
 
-                        case 4:
-                            Console.Clear();
-                            Console.WriteLine(ShoppingCart.ShowShoppingCart(out _, out _));
-                            Console.ReadLine();
-                            break;
+                    case 4:
+                        Console.Clear();
+                        Console.WriteLine(ShoppingCart.ShowShoppingCart(out _, out _));
+                        Console.WriteLine("\nVill du ändra i varukorgen? (Ja/Nej)");
+                        string inputChange = Console.ReadLine();
+                        if (inputChange == "Ja") ShoppingCart.ChangeOrRemoveProductsInCart();
+                        Console.ReadLine();
+                        break;
 
                         case 5:
                             Console.Clear();
@@ -130,6 +133,7 @@ namespace FurnitureOnline2
                 {
                     case 1:
                         Console.Clear();
+                        Console.WriteLine(Dapper.ShowCustomerId());
                         Console.WriteLine("Ange kund-Id du vill se ordern på");
                         int customer = Convert.ToInt32(Console.ReadLine());
                         Console.WriteLine(Dapper.OrderList(customer));

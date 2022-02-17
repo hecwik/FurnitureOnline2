@@ -140,6 +140,8 @@ namespace FurnitureOnline2
             {
                 var customerList = db.Customers;
 
+                if (guestShopper.UserName == null) guestShopper.UserName = guestShopper.LastName.ToString();
+
                 customerList.Add(guestShopper);
                 db.SaveChanges();
             }

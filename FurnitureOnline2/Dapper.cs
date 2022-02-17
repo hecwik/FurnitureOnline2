@@ -220,6 +220,24 @@ namespace FurnitureOnline2
             return returnString;
         }
 
+        public static string ShowCustomerId()
+        {
+            var sql = @"Select Id FROM Customer";
+            var returnString = "";
+            using (var connection = new SqlConnection(connString))
+            {
+                connection.Open();
+                var customers = connection.Query<Models.Customer>(sql);
+                returnString += $"{"Kund-ID: "}\n";
+
+                foreach (var customer in customers)
+                {
+                    returnString += $"{customer.Id}\n";
+                }
+            }
+            return returnString;
+        }
+
         /// <summary>
         /// Search for a product in the products table based on article number or product name
         /// </summary>/
@@ -238,14 +256,12 @@ namespace FurnitureOnline2
             {
                 connection.Open();
                 var searchResult = connection.Query<Models.Product>(sql);
-                string returnString = $"{"Produktnamn",-20}{"Artikelnr.",-20}";
+                string returnString = $"{"Produktnamn",-40}{"Artikelnr.",-20}";
                 foreach (var item in searchResult)
                 {
-                    Console.WriteLine($"{item.Name, -20}{item.ArticleNumber, -20}");
+                    Console.WriteLine($"{item.Name,-40}{item.ArticleNumber,-20}");
                 }
             }
         }
     }
 }
-// mer statistik grejer?
-// TESTA ALLT!

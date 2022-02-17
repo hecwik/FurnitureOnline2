@@ -62,7 +62,7 @@ namespace FurnitureOnline2
                         var newOrderDetail = new Models.OrderDetail() 
                         { 
                             OrderId = newOrderHistory.Id, 
-                            ProductsId = 4, 
+                            ProductsId = item.ArticleNumber, 
                             Price = item.UnitPrice, 
                             Quantity = item.Quantity 
                         };

@@ -69,7 +69,9 @@ namespace FurnitureOnline2
                                    ProductName = product.Name,
                                    UnitPrice = product.CurrentPrice,
                                    Quantity = cart.AmountOfItems,
-                                   ArticleNumber = product.ArticleNumber
+                                   ArticleNumber = product.ArticleNumber,
+                                   Moms = product.Moms
+                                   
                                };
 
                 string returnString = $"SAMMANSTÄLLNING\n\n{"ART.NR.",-10}{"PRODUKTNAMN",-25}{"PRIS",-14}{"ANTAL",-17}{"TOTAL KOSTNAD PER ARTIKEL",-30}\n";
@@ -82,7 +84,7 @@ namespace FurnitureOnline2
                     summa += item.TotalAmount;
                     summaExcludingVat += item.TotalAmount * item.Moms;
                 }
-                returnString += $"\nTOTAL KOSTNAD FÖR ALLA ARTIKLAR: {summa:C2}\nEXKLUSIVE MOMS: {summa:C2}";
+                returnString += $"\nTOTAL KOSTNAD FÖR ALLA ARTIKLAR: {summa:C2}\nEXKLUSIVE MOMS: {summaExcludingVat:C2}";
                 return returnString;
             }
         }

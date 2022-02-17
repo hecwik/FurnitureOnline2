@@ -47,7 +47,6 @@ namespace FurnitureOnline2
             using (var db = new Models.WebShopDBContext())
             {
                 var supplierList = db.Suppliers;
-
                 Console.WriteLine("Vilken leverantör vill du ta bort?");
                 string input = Console.ReadLine();
 
@@ -64,7 +63,7 @@ namespace FurnitureOnline2
 
                     if (inputString == "Ja") deleteSupplier.HiddenSupplier = true;
                 }
-
+                Console.WriteLine("");
                 db.SaveChanges();
             }
         }

@@ -253,3 +253,5 @@ namespace FurnitureOnline2
         }
     }
 }
+// En till Query
+// visa all order-id i Case 2 adminMeny

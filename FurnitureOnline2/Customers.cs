@@ -26,7 +26,7 @@ namespace FurnitureOnline2
             }
             else if (input == "Nej")
             {
-                Console.Write("Vill du bli medlem (Ja eller Nej): ?");
+                Console.Write("Vill du bli medlem (Ja eller Nej): ");
                 string input2 = Console.ReadLine();
 
                 if (input2 == "Ja")

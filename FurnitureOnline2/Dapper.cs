@@ -220,6 +220,24 @@ namespace FurnitureOnline2
             return returnString;
         }
 
+        public static string ShowCustomerId()
+        {
+            var sql = @"Select Id FROM Customer";
+            var returnString = "";
+            using (var connection = new SqlConnection(connString))
+            {
+                connection.Open();
+                var customers = connection.Query<Models.Customer>(sql);
+                returnString += $"{"Kund-ID: "}\n";
+
+                foreach (var customer in customers)
+                {
+                    returnString += $"{customer.Id}\n";
+                }
+            }
+            return returnString;
+        }
+
         /// <summary>
         /// Search for a product in the products table based on article number or product name
         /// </summary>/
@@ -247,5 +265,3 @@ namespace FurnitureOnline2
         }
     }
 }
-// mer statistik grejer?
-// TESTA ALLT!

@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Dapper;
+﻿using Dapper;
+using System;
 using System.Data.SqlClient;
+using System.Linq;
 
 namespace FurnitureOnline2
 {
@@ -24,7 +21,7 @@ namespace FurnitureOnline2
                         FROM OrderHistory
                         WHERE CustomerId";
 
-            if (customer != 0)  sql += "= " + customer.ToString();
+            if (customer != 0) sql += "= " + customer.ToString();
             if (customer == 0) sql += " between 1 AND 10000 ";
             using (var connection = new SqlConnection(connString))
             {
@@ -46,6 +43,8 @@ namespace FurnitureOnline2
         /// <returns></returns>
         public static string ShowSpecificOrder(int orderId)
         {
+            string retString = "";
+
             var sql = @"Select * FROM OrderHistory oh
                         Join OrderDetail od ON od.OrderId = oh.Id
                         Join Products p ON od.ProductsId = p.Id
@@ -59,24 +58,31 @@ namespace FurnitureOnline2
                 connection.Open();
                 var product = connection.Query<ShowSpecificOrderQuery>(sql).ToList();
 
-                string customerBought = $"{product[0].OrderDate} har kund {product[0].FirstName} {product[0].LastName} genomfört följande order:\n";
-                Console.WriteLine(customerBought);
-
-                string retString = "";
-                
-                foreach (var item in product)
+                try
                 {
-                    retString += $"{ item.ArticleNumber,-10}{item.Name,-25}{item.TotalPrice,-14:C2}{item.Quantity,-17}{item.TotalPrice * item.Quantity,-17:C2}\n";
+                    string customerBought = $"{product[0].OrderDate} har kund {product[0].FirstName} {product[0].LastName} genomfört följande order:\n";
+                    Console.WriteLine(customerBought);
+
+                    foreach (var item in product)
+                    {
+                        retString += $"{ item.ArticleNumber,-20}{item.Name,-25}{item.TotalPrice,-14:C2}{item.Quantity,-17}{item.TotalPrice * item.Quantity,-17:C2}\n";
+                    }
+
+                    string orderDetail = $"\nFraktadress: {product[0].ShippingAdress}\n" +
+                        $"Postnummer: {product[0].ShippingZipCode}\n" +
+                        $"Stad: {product[0].ShippingCity}\n" +
+                        $"Fraktmetod: {product[0].ShippingId}\n" +
+                        $"Betalningssätt: {product[0].PaymentId}\n";
+
+                    Console.WriteLine(orderDetail);
+                    Console.WriteLine($"{"Artikelnummer",-20}{"Namn",-25}{"Pris",-14}{"Antal",-17}{"Total kostnad",-17}");
                 }
-
-                string orderDetail = $"\nFraktadress: {product[0].ShippingAdress}\n" +
-                    $"Postnummer: {product[0].ShippingZipCode}\n" +
-                    $"Stad: {product[0].ShippingCity}\n" +
-                    $"Fraktmetod: {product[0].ShippingId}\n" +
-                    $"Betalningssätt: {product[0].PaymentId}\n";
-
-                Console.WriteLine(orderDetail);
-                Console.WriteLine($"{"Artikelnummer",-20}{"Namn",-25}{"Pris",-14}{"Antal",-17}{"Total kostnad",-17}");
+                catch
+                {
+                    Console.WriteLine("Ange ett order-id som finns enligt listan");
+                    int orderId2 = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine(Dapper.ShowSpecificOrder(orderId2));
+                }
                 return retString;
             }
         }
@@ -121,7 +127,7 @@ namespace FurnitureOnline2
                 {
                     returnString += $"{item.Item1,-45}{item.Item2,-15}{item.Item3,-15}\n";
                 }
-                
+
                 return returnString;
             }
         }
@@ -147,18 +153,16 @@ namespace FurnitureOnline2
                 var product = connection.Query<(string, int, int)>(sql).ToList();
 
 
-                string returnString = $"{"Kategori:", -15}{"Antal ordrar", -20}{"Totalt pris:"}\n";
-                string retString = "";                
+                string returnString = $"{"Kategori:",-15}{"Antal ordrar",-20}{"Totalt pris:"}\n";
+                string retString = "";
                 Console.WriteLine(returnString);
                 foreach (var item in product)
                 {
-                    retString += $"{item.Item1,-15}{item.Item2,-20}{item.Item3, -10}\n";
+                    retString += $"{item.Item1,-15}{item.Item2,-20}{item.Item3,-10}\n";
                 }
                 return retString;
             }
         }
-
-
         public static void NumberOfOrdersGroupedByAge()
         {
             var sql = @"SELECT
@@ -176,17 +180,18 @@ namespace FurnitureOnline2
                 When DATEDIFF(YEAR, CAST(LEFT(IdNumber, 8) AS DATE), GETDATE()) between 26 AND 50 Then 'Ålder 26-50'
                 When DATEDIFF(YEAR, CAST(LEFT(IdNumber, 8) AS DATE), GETDATE()) > 50 Then 'Ålder 50+'
                 End)";
-              using (var connection = new SqlConnection(connString))
+            using (var connection = new SqlConnection(connString))
             {
                 connection.Open();
                 var product = connection.Query<(string, int, double)>(sql).ToList();
 
-                Console.WriteLine($"{"Ålder:", -15}{"Antal ordrar:",-20}{"Total pris:"}\n");
+                Console.WriteLine($"{"Ålder:",-15}{"Antal ordrar:",-20}{"Total pris:"}\n");
                 foreach (var item in product)
                 {
                     Console.WriteLine($"{item.Item1,-15}{item.Item2,-20}{item.Item3}");
                 }
             }
+
         }
 
         /// <summary>
@@ -217,8 +222,8 @@ namespace FurnitureOnline2
         /// Shows a list of all the members and their information
         /// </summary>
         /// <returns></returns>
-        public static string MemberList()  
-       {
+        public static string MemberList()
+        {
             var sql = @"Select Id, FirstName, LastName, Adress, ZipCode, City, UserName, Email, IdNumber FROM Customer Where Membership = 1";
             var returnString = "Medlemslista:\n";
             using (var connection = new SqlConnection(connString))

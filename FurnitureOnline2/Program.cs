@@ -16,12 +16,8 @@ namespace FurnitureOnline2
             Console.WriteLine("Vill du handla? Ja/Nej");
             string userInput = Console.ReadLine().ToUpper();
 
-            if (userInput.ToUpper() == "JA")
-            {
-                MenuSelection();
-            }
-            else
-                AdminMenu();
+            if (userInput.ToUpper() == "JA") MenuSelection();
+            else AdminMenu();
 
                 Orderhistory.CheckOut();
         }
@@ -65,20 +61,19 @@ namespace FurnitureOnline2
                             Console.ReadLine();
                             break;
 
-                    case 4:
-                        Console.Clear();
-                        Console.WriteLine(ShoppingCart.ShowShoppingCart(out _, out _));
-                        Console.WriteLine("\nVill du ändra i varukorgen? (Ja/Nej)");
-                        string inputChange = Console.ReadLine();
-                        if (inputChange == "Ja") ShoppingCart.ChangeOrRemoveProductsInCart();
-                        Console.ReadLine();
-                        break;
+                        case 4:
+                            Console.Clear();
+                            Console.WriteLine(ShoppingCart.ShowShoppingCart(out _, out _));
+                            Console.WriteLine("\nVill du ändra i varukorgen? (Ja/Nej)");
+                            string inputChange = Console.ReadLine();
+                            if (inputChange == "Ja") ShoppingCart.ChangeOrRemoveProductsInCart();
+                            Console.ReadLine();
+                            break;
 
                         case 5:
                             Console.Clear();
                             Console.WriteLine(ShoppingCart.ShowShoppingCart(out _, out _));
                             Console.WriteLine("Vill du gå till kassan? (Ja/Nej)");
-
 
                             Orderhistory.CheckOut();
                             break;
@@ -146,7 +141,7 @@ namespace FurnitureOnline2
                         Console.WriteLine("Ange det order-Id du vill se ordern på");
                         int orderId = Convert.ToInt32(Console.ReadLine());
                         Console.WriteLine(Dapper.ShowSpecificOrder(orderId));
-                       Console.ReadKey();
+                        Console.ReadKey();
                         break;
 
                     case 3:
@@ -255,4 +250,4 @@ namespace FurnitureOnline2
     }
 }
 // En till Query
-// visa all order-id i Case 2 adminMeny
+// visa all order-id i Case 2 adminMeny FIXAD

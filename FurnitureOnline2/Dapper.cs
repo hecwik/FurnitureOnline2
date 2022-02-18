@@ -165,6 +165,43 @@ namespace FurnitureOnline2
                 return retString;
             }
         }
+
+        public static string AverageValueInTheOrderBasedOnGender()
+        {
+            var sql = @"  SELECT
+                          IIF(SUBSTRING(IdNumber, 11, 1) % 2 = 0, 'Kvinna', 'Man') AS 'Kön', AVG(distinct oh.TotalPrice)
+                          FROM
+                          Customer c
+                          Join OrderHistory oh ON oh.CustomerId = c.Id
+                          Join OrderDetail od ON od.OrderId = oh.Id
+                          Group by   IIF(SUBSTRING(IdNumber, 11, 1) % 2 = 0, 'Kvinna', 'Man')";
+
+            using (var connection = new SqlConnection(connString))
+            {
+                connection.Open();
+                var product = connection.Query<(string, int)>(sql).ToList();
+
+
+                string returnString = $"{"Kön:",-15}{"Genomsnittligt värde i ordern",-20}";
+                string retString = "";
+                Console.WriteLine(returnString);
+                foreach (var item in product)
+                {
+                    Console.WriteLine($"{item.Item1,-15}{item.Item2,-20:C2}");
+                }
+                return retString;
+            }
+        }
+
+
+
+
+
+
+
+
+
+
         public static void NumberOfOrdersGroupedByAge()
         {
             var sql = @"SELECT

@@ -114,16 +114,17 @@ namespace FurnitureOnline2
                     "[5] Se medlemslista\n" +
                     "[6] Visa ordrar baserat på ålder\n" +
                     "[7] Visa mest populära kategorin\n" +
-                    "[8] Lägga till en produkt \n" +
-                    "[9] Ändra produktdetaljer\n" +
-                    "[10] Ta bort en produkt\n" +
-                    "[11] Lägg till kategori\n" +
-                    "[12] Ändra på en kategori\n" +
-                    "[13] Ta bort en kategori\n" +
-                    "[14] Lägg till en leverantör\n" +
-                    "[15] Ändra detaljer hos leverantör\n" +
-                    "[16] Ta bort en leverantör\n" +
-                    "[17] Exit ");
+                    "[8] Visa genomsnitt i ordrar baserat på kön\n" +
+                    "[9] Lägga till en produkt \n" +
+                    "[10] Ändra produktdetaljer\n" +
+                    "[11] Ta bort en produkt\n" +
+                    "[12] Lägg till kategori\n" +
+                    "[13] Ändra på en kategori\n" +
+                    "[14] Ta bort en kategori\n" +
+                    "[15] Lägg till en leverantör\n" +
+                    "[16] Ändra detaljer hos leverantör\n" +
+                    "[17] Ta bort en leverantör\n" +
+                    "[18] Exit ");
 
                 int input = Convert.ToInt32(Console.ReadLine());
 
@@ -132,7 +133,7 @@ namespace FurnitureOnline2
                     case 1:
                         Console.Clear();
                         Console.WriteLine(Dapper.ShowCustomerId());
-                        Console.WriteLine("Ange kund-Id du vill se ordern på");
+                        Console.WriteLine("Ange kund-Id du vill se ordern på (skriv 0 om du vill se alla ordrar)");
                         int customer = Convert.ToInt32(Console.ReadLine());
                         Console.WriteLine(Dapper.OrderList(customer));
                         Console.ReadKey();
@@ -177,13 +178,20 @@ namespace FurnitureOnline2
                         Console.ReadLine();
                         break;
 
+
                     case 8:
+                        Console.Clear();
+                        Dapper.AverageValueInTheOrderBasedOnGender();
+                        Console.ReadLine();
+                        break;
+
+                    case 9:
                         Console.Clear();
                         Products.AddProduct();
 
                         break;
 
-                    case 9:
+                    case 10:
                         Console.Clear();
                         Console.WriteLine(Products.ShowAllProducts());
                         Console.Write("Ange namnet på produkten du vill ändra på");
@@ -201,46 +209,46 @@ namespace FurnitureOnline2
                         }
                         break;
 
-                    case 10:
+                    case 11:
                         Console.Clear();
                         Console.WriteLine(Products.ShowAllProducts());
                         Products.RemoveProduct();
                         break;
 
-                    case 11:
-                        Console.Clear();
-                        Category.AddCategory();
-                        break;
-
                     case 12:
                         Console.Clear();
-                        Category.ShowAllCategories();
-                        Category.ModifyCategoryName();
+                        Category.AddCategory();
                         break;
 
                     case 13:
                         Console.Clear();
                         Category.ShowAllCategories();
-                        Category.RemoveCategory();
+                        Category.ModifyCategoryName();
                         break;
 
                     case 14:
                         Console.Clear();
-                        Supplier.AddSupplier();
+                        Category.ShowAllCategories();
+                        Category.RemoveCategory();
                         break;
 
                     case 15:
+                        Console.Clear();
+                        Supplier.AddSupplier();
+                        break;
+
+                    case 16:
                         Console.Clear();
                         Supplier.ShowAllSupplier();
                         Supplier.UpdateSupplier();
                         break;
 
-                    case 16:
+                    case 17:
                         Console.Clear();
                         Supplier.DeleteSupplier();
                         break;
 
-                    case 17:
+                    case 18:
                         break;
 
                     default:

@@ -7,6 +7,7 @@ namespace FurnitureOnline2
 {
     class Program
     {
+        
         // GRUPPEN BESTÅR AV: Louise, Carl-Henrik & Hector
         static void Main(string[] args)
         {
@@ -134,7 +135,7 @@ namespace FurnitureOnline2
                         Console.WriteLine("Ange kund-Id du vill se ordern på");
                         int customer = Convert.ToInt32(Console.ReadLine());
                         Console.WriteLine(Dapper.OrderList(customer));
-                        Console.ReadLine();
+                        Console.ReadKey();
                         break;
 
                     case 2:
@@ -252,4 +253,4 @@ namespace FurnitureOnline2
     }
 }
 // En till Query
-// visa all order-id i Case 2 adminMeny FIXAD
+// visa all order-id i Case 2 adminMeny

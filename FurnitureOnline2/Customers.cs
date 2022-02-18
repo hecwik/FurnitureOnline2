@@ -201,7 +201,6 @@ namespace FurnitureOnline2
             }
             return guestShopper;
         }
-
         public static Models.Customer MemberLogin()
         {
             bool loggedIn = false;
@@ -233,5 +232,6 @@ namespace FurnitureOnline2
             }
             return null;
         }
+
     }
 }

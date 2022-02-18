@@ -28,11 +28,13 @@ namespace FurnitureOnline2
                 connection.Open();
                 var orderlist = connection.Query<Models.OrderHistory>(sql).ToList();
 
-                returnString = $"SAMMANSTÄLLNING\n\n{"KUND-ID",-10}{"ORDER-ID",-10}{"ORDERDATUM",-25}{"TOTAL KOSTNAD",-30}\n";
-                foreach (var item in orderlist)
-                {
-                    returnString += $"{item.CustomerId,-10}{item.Id,-10}{item.OrderDate,-25}{item.TotalPrice,-15:C2}\n";
-                }
+                    returnString = $"SAMMANSTÄLLNING\n\n{"KUND-ID",-10}{"ORDER-ID",-10}{"ORDERDATUM",-25}{"TOTAL KOSTNAD",-30}\n";
+                    foreach (var item in orderlist)
+                    {
+                        if(item != null)
+                        returnString += $"{item.CustomerId,-10}{item.Id,-10}{item.OrderDate,-25}{item.TotalPrice,-15:C2}\n";
+                    }
+
             }
             return returnString;
         }
@@ -47,7 +49,7 @@ namespace FurnitureOnline2
 
             var sql = @"Select * FROM OrderHistory oh
                         Join OrderDetail od ON od.OrderId = oh.Id
-                        Join Products p ON od.ProductsId = p.Id
+                        Join Products p ON od.ProductsId = p.ArticleNumber
                         Join Payment pa ON oh.PaymentId = pa.id
                         Join Shipping s ON oh.ShippingId = s.Id
                         Join Customer c ON oh.CustomerId = c.Id
@@ -113,7 +115,7 @@ namespace FurnitureOnline2
                         FROM
                         OrderDetail od
                         Join OrderHistory oh ON od.OrderId = oh.Id
-                        Join Products p ON od.ProductsId = p.Id
+                        Join Products p ON od.ProductsId = p.ArticleNumber
                         Group by p.Name
                         Order by SUM(Quantity) DESC";
 
@@ -142,7 +144,7 @@ namespace FurnitureOnline2
                         FROM
                         OrderDetail od
                         Join OrderHistory oh ON od.OrderId = oh.Id
-                        Join Products p ON od.ProductsId = p.Id
+                        Join Products p ON od.ProductsId = p.ArticleNumber
 						Join Category c ON p.CategoryId = c.Id
                         Group by c.Name
                         Order by count(*) DESC";
@@ -163,9 +165,43 @@ namespace FurnitureOnline2
                 return retString;
             }
         }
-        /// <summary>
-        /// Shows amount of orders based on age.
-        /// </summary>
+
+        public static string AverageValueInTheOrderBasedOnGender()
+        {
+            var sql = @"  SELECT
+                          IIF(SUBSTRING(IdNumber, 11, 1) % 2 = 0, 'Kvinna', 'Man') AS 'Kön', AVG(distinct oh.TotalPrice)
+                          FROM
+                          Customer c
+                          Join OrderHistory oh ON oh.CustomerId = c.Id
+                          Join OrderDetail od ON od.OrderId = oh.Id
+                          Group by   IIF(SUBSTRING(IdNumber, 11, 1) % 2 = 0, 'Kvinna', 'Man')";
+
+            using (var connection = new SqlConnection(connString))
+            {
+                connection.Open();
+                var product = connection.Query<(string, int)>(sql).ToList();
+
+
+                string returnString = $"{"Kön:",-15}{"Genomsnittligt värde i ordern",-20}";
+                string retString = "";
+                Console.WriteLine(returnString);
+                foreach (var item in product)
+                {
+                    Console.WriteLine($"{item.Item1,-15}{item.Item2,-20:C2}");
+                }
+                return retString;
+            }
+        }
+
+
+
+
+
+
+
+
+
+
         public static void NumberOfOrdersGroupedByAge()
         {
             var sql = @"SELECT

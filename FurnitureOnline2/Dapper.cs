@@ -79,9 +79,24 @@ namespace FurnitureOnline2
                 Console.WriteLine($"{"Artikelnummer",-20}{"Namn",-25}{"Pris",-14}{"Antal",-17}{"Total kostnad",-17}");
                 return retString;
             }
-
         }
+        public static string ShowOrderId()
+        {
+            var sql = @"Select Id FROM OrderHistory";
+            var returnString = "";
+            using (var connection = new SqlConnection(connString))
+            {
+                connection.Open();
+                var orders = connection.Query<Models.Customer>(sql);
+                returnString += $"{"Order-ID: "}\n";
 
+                foreach (var order in orders)
+                {
+                    returnString += $"{order.Id}\n";
+                }
+            }
+            return returnString;
+        }
         /// <summary>
         /// Shows the overall most sold products
         /// </summary>

@@ -142,6 +142,7 @@ namespace FurnitureOnline2
 
                     case 2:
                         Console.Clear();
+                        Console.WriteLine(Dapper.ShowOrderId());
                         Console.WriteLine("Ange det order-Id du vill se ordern på");
                         int orderId = Convert.ToInt32(Console.ReadLine());
                         Console.WriteLine(Dapper.ShowSpecificOrder(orderId));

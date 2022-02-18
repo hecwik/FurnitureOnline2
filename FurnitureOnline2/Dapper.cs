@@ -49,7 +49,7 @@ namespace FurnitureOnline2
 
             var sql = @"Select * FROM OrderHistory oh
                         Join OrderDetail od ON od.OrderId = oh.Id
-                        Join Products p ON od.ProductsId = p.Id
+                        Join Products p ON od.ProductsId = p.ArticleNumber
                         Join Payment pa ON oh.PaymentId = pa.id
                         Join Shipping s ON oh.ShippingId = s.Id
                         Join Customer c ON oh.CustomerId = c.Id
@@ -115,7 +115,7 @@ namespace FurnitureOnline2
                         FROM
                         OrderDetail od
                         Join OrderHistory oh ON od.OrderId = oh.Id
-                        Join Products p ON od.ProductsId = p.Id
+                        Join Products p ON od.ProductsId = p.ArticleNumber
                         Group by p.Name
                         Order by SUM(Quantity) DESC";
 
@@ -144,7 +144,7 @@ namespace FurnitureOnline2
                         FROM
                         OrderDetail od
                         Join OrderHistory oh ON od.OrderId = oh.Id
-                        Join Products p ON od.ProductsId = p.Id
+                        Join Products p ON od.ProductsId = p.ArticleNumber
 						Join Category c ON p.CategoryId = c.Id
                         Group by c.Name
                         Order by count(*) DESC";

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using FurnitureOnline2.Models;
+using Dapper;
 
 namespace FurnitureOnline2
 {
@@ -72,6 +73,7 @@ namespace FurnitureOnline2
 
                         case 5:
                             Console.Clear();
+                            // kolla att shoppingcart inte är tom
                             Console.WriteLine(ShoppingCart.ShowShoppingCart(out _, out _));
                             Console.WriteLine("Vill du gå till kassan? (Ja/Nej)");
 

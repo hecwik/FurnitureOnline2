@@ -104,7 +104,7 @@ namespace FurnitureOnline2
             return returnString;
         }
         /// <summary>
-        /// Shows the overall most sold products
+        /// Shows the overall most sold products.
         /// </summary>
         /// <returns></returns>/
         public static string MostSoldProducts()
@@ -133,7 +133,7 @@ namespace FurnitureOnline2
         }
 
         /// <summary>
-        /// Shows the most popular product category
+        /// Shows the most popular product category.
         /// </summary>
         /// <returns></returns>
         public static string MostPopularCategory()
@@ -163,6 +163,9 @@ namespace FurnitureOnline2
                 return retString;
             }
         }
+        /// <summary>
+        /// Shows amount of orders based on age.
+        /// </summary>
         public static void NumberOfOrdersGroupedByAge()
         {
             var sql = @"SELECT
@@ -210,7 +213,6 @@ namespace FurnitureOnline2
                 connection.Open();
                 var statisticList = connection.Query<(string, int)>(sql);
 
-
                 foreach (var item in statisticList)
                 {
                     returnstring += $"{item.Item1,-20}{item.Item2,-10}\n";
@@ -240,6 +242,10 @@ namespace FurnitureOnline2
             return returnString;
         }
 
+        /// <summary>
+        /// Shows all customer ID's.
+        /// </summary>
+        /// <returns></returns>
         public static string ShowCustomerId()
         {
             var sql = @"Select Id FROM Customer";

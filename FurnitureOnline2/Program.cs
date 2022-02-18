@@ -137,7 +137,7 @@ namespace FurnitureOnline2
                         Console.WriteLine("Ange kund-Id du vill se ordern på");
                         int customer = Convert.ToInt32(Console.ReadLine());
                         Console.WriteLine(Dapper.OrderList(customer));
-                        Console.ReadLine();
+                        Console.ReadKey();
                         break;
 
                     case 2:

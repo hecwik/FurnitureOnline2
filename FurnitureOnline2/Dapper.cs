@@ -28,11 +28,13 @@ namespace FurnitureOnline2
                 connection.Open();
                 var orderlist = connection.Query<Models.OrderHistory>(sql).ToList();
 
-                returnString = $"SAMMANSTÄLLNING\n\n{"KUND-ID",-10}{"ORDER-ID",-10}{"ORDERDATUM",-25}{"TOTAL KOSTNAD",-30}\n";
-                foreach (var item in orderlist)
-                {
-                    returnString += $"{item.CustomerId,-10}{item.Id,-10}{item.OrderDate,-25}{item.TotalPrice,-15:C2}\n";
-                }
+                    returnString = $"SAMMANSTÄLLNING\n\n{"KUND-ID",-10}{"ORDER-ID",-10}{"ORDERDATUM",-25}{"TOTAL KOSTNAD",-30}\n";
+                    foreach (var item in orderlist)
+                    {
+                        if(item != null)
+                        returnString += $"{item.CustomerId,-10}{item.Id,-10}{item.OrderDate,-25}{item.TotalPrice,-15:C2}\n";
+                    }
+
             }
             return returnString;
         }
